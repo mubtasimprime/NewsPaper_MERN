@@ -6,7 +6,9 @@ import Footer from "../pages/shared/Footer";
 const AuthLayout = () => {
   return (
     <div className="lato">
-      <Navbar></Navbar>
+      <div className="shadow-sm bg-white sticky top-0 z-50">
+        <Navbar></Navbar>
+      </div>
       <Outlet></Outlet>
       <Footer></Footer>
     </div>

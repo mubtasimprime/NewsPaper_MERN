@@ -1,4 +1,3 @@
-import React from "react";
 import ErrorPage from "../pages/shared/ErrorPage";
 
 const ErrorLayout = () => {
