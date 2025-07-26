@@ -6,6 +6,7 @@ import { router } from "./Router/router";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
+    <ToastContainer />
     <RouterProvider router={router} />
   </StrictMode>
 );
