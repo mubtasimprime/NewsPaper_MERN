@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { AuthContext } from "../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Register = () => {
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
+
+  const { signUpWithEmail, setUser, updateUser } = useContext(AuthContext);
+  const [nameError, setNameError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("/districts.json")
@@ -14,11 +20,67 @@ const Register = () => {
       .then((res) => res.json())
       .then((data) => setUpazilas(data));
   }, []);
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    if (name.length < 5) {
+      setNameError("Name should be more than 5 character");
+      return;
+    } else {
+      setNameError("");
+    }
+    const email = form.email.value;
+    const photo = form.photo.value;
+    const password = form.password.value;
+
+    if (password.length < 6) {
+      toast.error("Password must be at least 6 characters long");
+      return;
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password must contain at least one uppercase letter");
+      return;
+    }
+
+    if (!/[a-z]/.test(password)) {
+      toast.error("Password must contain at least one lowercase letter");
+      return;
+    }
+
+    signUpWithEmail(email, password)
+      .then((result) => {
+        const user = result.user;
+        updateUser({
+          displayName: name,
+          photoURL: photo,
+        })
+          .then(() => {
+            setUser({ ...user, displayName: name, photoURL: photo });
+            navigate("/");
+          })
+          .catch((error) => {
+            console.log(error);
+            setUser(user);
+          });
+        toast.success("Register successful!", {
+          autoClose: 1500,
+        });
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        alert(errorMessage);
+        // ..
+      });
+  };
+
   return (
     <div
       className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-cover bg-center"
       style={{
-        backgroundImage: "url(https://i.ibb.co/ymvjGJSP/18300609-5969415.jpg)",
+        backgroundImage: "url(https://i.ibb.co/21LxNSMf/18300586-5969395.jpg)",
       }}
     >
       {/* Dark overlay */}
@@ -54,7 +116,7 @@ const Register = () => {
               </div>
             </div>
 
-            <form className="space-y-4">
+            <form onSubmit={handleRegister} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Column 1 */}
                 <div className="space-y-4">
@@ -124,7 +186,7 @@ const Register = () => {
                     <select
                       id="district"
                       required
-                      className="w-full px-4 py-2 border rounded-lg"
+                      className="w-full px-4 py-2 border rounded-lg border-gray-300"
                     >
                       <option value="">Select District</option>
                       {districts.map((district) => (
@@ -147,7 +209,7 @@ const Register = () => {
                     <select
                       id="upazila"
                       required
-                      className="w-full px-4 py-2 border rounded-lg"
+                      className="w-full px-4 py-2 border rounded-lg border-gray-300"
                     >
                       <option value="">Select Upazila</option>
                       {upazilas.map((upazila) => (

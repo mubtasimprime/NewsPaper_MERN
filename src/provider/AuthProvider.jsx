@@ -9,7 +9,7 @@ import {
   signOut,
   updateProfile,
 } from "firebase/auth";
-import { auth } from "../../firebase/firebase.init";
+import { auth } from "../firebase/firebase.init";
 import { toast } from "react-toastify";
 import axios from "axios";
 
@@ -59,12 +59,8 @@ const AuthProvider = ({ children }) => {
     const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
-      // console.log(currentUser);
-      axios.get(`${import.meta.env.VITE_API_URL}`, {
-        headers: {
-          Authorization: `Bearer ${currentUser.accessToken}`,
-        },
-      });
+      // You can log it if needed for debugging
+      // console.log("Current user:", currentUser);
     });
     return () => {
       unsubcribe();
@@ -82,7 +78,9 @@ const AuthProvider = ({ children }) => {
     updateUser,
     logOut,
   };
-  return <AuthContext value={authInfo}>{children}</AuthContext>;
+  return (
+    <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
+  );
 };
 
 export default AuthProvider;

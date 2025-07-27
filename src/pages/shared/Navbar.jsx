@@ -1,7 +1,22 @@
 import { Link, NavLink } from "react-router";
 import Logo from "../../assets/logo_blood.png";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {
+        toast.success("Logout successful!", {
+          autoClose: 1500,
+        });
+      })
+      .catch((error) => console.log(error));
+  };
+
   const navItems = (
     <>
       <li>
@@ -24,36 +39,18 @@ const Navbar = () => {
           Blog
         </NavLink>
       </li>
-      <li>
-        <NavLink
-          to="#"
-          className={({ isActive }) =>
-            isActive ? "text-10 font-semibold" : "hover:scale-105"
-          }
-        >
-          LogIn
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="#"
-          className={({ isActive }) =>
-            isActive ? "text-10 font-semibold" : "hover:scale-105"
-          }
-        >
-          Funding
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
-          to="#"
-          className={({ isActive }) =>
-            isActive ? "text-10 font-semibold" : "hover:scale-105"
-          }
-        >
-          Blog
-        </NavLink>
-      </li>
+      {user && (
+        <li>
+          <NavLink
+            to="/funding"
+            className={({ isActive }) =>
+              isActive ? "text-10 font-semibold" : "hover:scale-105"
+            }
+          >
+            Funding
+          </NavLink>
+        </li>
+      )}
     </>
   );
   return (
@@ -97,7 +94,42 @@ const Navbar = () => {
         </ul>
       </div>
 
-      {/* Right Side Buttons */}
+      {/* End: Right Buttons / Avatar */}
+      <div className="navbar-end">
+        {!user ? (
+          <Link
+            to="/auth/login"
+            className="bg-[#46052D] hover:bg-[#B32346] transition duration-300 text-white px-5 py-1 rounded-md"
+          >
+            LogIn
+          </Link>
+        ) : (
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt="user avatar"
+                  src={
+                    user.photoURL || "https://i.ibb.co/ZYW3VTp/blood-avatar.png"
+                  }
+                />
+              </div>
+            </div>
+            <ul className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-40">
+              <li>
+                <Link to="/dashboard">Dashboard</Link>
+              </li>
+              <li>
+                <button onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
