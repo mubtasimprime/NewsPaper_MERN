@@ -41,11 +41,11 @@ const HomeFeature = () => {
           request management.
         </p>
 
-        <div className="grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+        <div className="max-w-9/12 mx-auto md:max-w-full grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-gray-100"
+              className="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-red-100"
             >
               <div className="flex items-center justify-center mb-4">
                 {feature.icon}
