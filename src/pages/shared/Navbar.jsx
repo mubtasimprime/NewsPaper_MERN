@@ -22,6 +22,18 @@ const Navbar = () => {
       <li>
         <NavLink
           to="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          className={({ isActive }) =>
+            isActive ? "text-10 font-semibold" : "hover:scale-105"
+          }
+        >
+          Home
+        </NavLink>
+      </li>
+      <li>
+        <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          to="/donation-request"
           className={({ isActive }) =>
             isActive ? "text-10 font-semibold" : "hover:scale-105"
           }
@@ -31,7 +43,8 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="#"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          to="/blog"
           className={({ isActive }) =>
             isActive ? "text-10 font-semibold" : "hover:scale-105"
           }
@@ -40,16 +53,31 @@ const Navbar = () => {
         </NavLink>
       </li>
       {user && (
-        <li>
-          <NavLink
-            to="/funding"
-            className={({ isActive }) =>
-              isActive ? "text-10 font-semibold" : "hover:scale-105"
-            }
-          >
-            Funding
-          </NavLink>
-        </li>
+        <>
+          {" "}
+          <li>
+            <NavLink
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              to="/funding"
+              className={({ isActive }) =>
+                isActive ? "text-10 font-semibold" : "hover:scale-105"
+              }
+            >
+              Funding
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              to="/dashboard"
+              className={({ isActive }) =>
+                isActive ? "text-10 font-semibold" : "hover:scale-105"
+              }
+            >
+              Funding
+            </NavLink>
+          </li>
+        </>
       )}
     </>
   );
@@ -81,7 +109,11 @@ const Navbar = () => {
             {navItems}
           </ul>
         </div>
-        <Link to="/" className="flex items-center">
+        <Link
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          to="/"
+          className="flex items-center"
+        >
           <img className="w-12 h-12 md:w-12 md:h-12" src={Logo} alt="" />
           <h1 className="md:text-2xl">
             Donate<span className="text-1 font-black">Blood</span>

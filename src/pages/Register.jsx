@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
@@ -19,7 +18,7 @@ const Register = () => {
   const { signUpWithEmail } = useAuth();
 
   const onSubmit = (data) => {
-    console.log(data);
+    // console.log(data);
     signUpWithEmail(data.email, data.password)
       .then((result) => {
         console.log(result.user);
@@ -40,39 +39,6 @@ const Register = () => {
       .then((res) => res.json())
       .then((data) => setUpazilas(data));
   }, []);
-
-  // const { signUpWithEmail, setUser, updateUser } = useContext(AuthContext);
-  // const [nameError, setNameError] = useState("");
-  // const navigate = useNavigate();
-
-  // const handleRegister = (e) => {
-  //   e.preventDefault();
-  //   const form = e.target;
-  //   const name = form.name.value;
-  //   if (name.length < 5) {
-  //     setNameError("Name should be more than 5 character");
-  //     return;
-  //   } else {
-  //     setNameError("");
-  //   }
-  //   const email = form.email.value;
-  //   const photo = form.photo.value;
-  //   const password = form.password.value;
-
-  //   if (password.length < 6) {
-  //     toast.error("Password must be at least 6 characters long");
-  //     return;
-  //   }
-
-  //   if (!/[A-Z]/.test(password)) {
-  //     toast.error("Password must contain at least one uppercase letter");
-  //     return;
-  //   }
-
-  //   if (!/[a-z]/.test(password)) {
-  //     toast.error("Password must contain at least one lowercase letter");
-  //     return;
-  //   }
 
   //   signUpWithEmail(email, password)
   //     .then((result) => {

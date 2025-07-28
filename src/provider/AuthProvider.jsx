@@ -5,17 +5,17 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signInWithPopup,
   signOut,
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.init";
 import { toast } from "react-toastify";
-import axios from "axios";
+import useAxiosSecure from "../hooks/useAxiosSecure";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure();
 
   const signUpWithEmail = (email, password) => {
     setLoading(true);
@@ -25,26 +25,6 @@ const AuthProvider = ({ children }) => {
   const signInWithEmail = (email, password) => {
     setLoading(true);
     return signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const signInWithGoogle = () => {
-    setLoading(true);
-    const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider)
-      .then((result) => {
-        setUser(result.user);
-        toast.success("Google login successful!", {
-          autoClose: 1500,
-        });
-        return result;
-      })
-      .catch((error) => {
-        toast.error(`Google login failed: ${error.message}`);
-        throw error;
-      })
-      .finally(() => {
-        setLoading(false);
-      });
   };
 
   const updateUser = (updateData) => {
@@ -58,12 +38,18 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      console.log("User in the auth state change", currentUser);
-
+      if (currentUser) {
+        axiosSecure
+          .post("/user", { email: currentUser.email, role: "donor" })
+          .then((res) => {
+            console.log(res.data);
+            setUser(currentUser);
+          })
+          .catch((error) => {
+            console.error("Failed to save user:", error);
+          });
+      }
       setLoading(false);
-      // You can log it if needed for debugging
-      // console.log("Current user:", currentUser);
     });
     return () => {
       unsubcribe();
@@ -77,7 +63,6 @@ const AuthProvider = ({ children }) => {
     setLoading,
     signUpWithEmail,
     signInWithEmail,
-    signInWithGoogle,
     updateUser,
     logOut,
   };
