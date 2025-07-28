@@ -23,9 +23,11 @@ const Register = () => {
     signUpWithEmail(data.email, data.password)
       .then((result) => {
         console.log(result.user);
+        toast.success("Register in successfully!");
       })
       .catch((error) => {
         console.log(error);
+        toast.error("Something error");
       });
   };
 

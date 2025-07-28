@@ -1,5 +1,7 @@
 import { useForm } from "react-hook-form";
 import { Link } from "react-router";
+import useAuth from "../hooks/useAuth";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const {
@@ -8,8 +10,19 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
+  const { signInWithEmail } = useAuth();
+
   const onSubmit = (data) => {
     console.log(data);
+    signInWithEmail(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+        toast.success("Logged in successfully!");
+      })
+      .catch((error) => {
+        toast.error("Invalid email or password");
+        console.log(error);
+      });
   };
 
   return (
