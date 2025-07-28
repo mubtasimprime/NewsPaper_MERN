@@ -84,7 +84,7 @@ const Navbar = () => {
         <Link to="/" className="flex items-center">
           <img className="w-12 h-12 md:w-12 md:h-12" src={Logo} alt="" />
           <h1 className="md:text-2xl">
-            Donate <span className="text-1 font-black">Blood</span>
+            Donate<span className="text-1 font-black">Blood</span>
           </h1>
         </Link>
       </div>
