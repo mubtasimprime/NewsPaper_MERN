@@ -78,7 +78,7 @@ const Register = () => {
 
   return (
     <div
-      className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-cover bg-center"
+      className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-cover bg-center py-10 md:py-0"
       style={{
         backgroundImage: "url(https://i.ibb.co/21LxNSMf/18300586-5969395.jpg)",
       }}
