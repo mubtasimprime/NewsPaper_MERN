@@ -2,14 +2,22 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 
 const Register = () => {
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+  } = useForm();
+  const password = watch("password");
 
-  const { signUpWithEmail, setUser, updateUser } = useContext(AuthContext);
-  const [nameError, setNameError] = useState("");
-  const navigate = useNavigate();
+  const onSubmit = (data) => {
+    console.log(data);
+  };
 
   useEffect(() => {
     fetch("/districts.json")
@@ -21,60 +29,64 @@ const Register = () => {
       .then((data) => setUpazilas(data));
   }, []);
 
-  const handleRegister = (e) => {
-    e.preventDefault();
-    const form = e.target;
-    const name = form.name.value;
-    if (name.length < 5) {
-      setNameError("Name should be more than 5 character");
-      return;
-    } else {
-      setNameError("");
-    }
-    const email = form.email.value;
-    const photo = form.photo.value;
-    const password = form.password.value;
+  // const { signUpWithEmail, setUser, updateUser } = useContext(AuthContext);
+  // const [nameError, setNameError] = useState("");
+  // const navigate = useNavigate();
 
-    if (password.length < 6) {
-      toast.error("Password must be at least 6 characters long");
-      return;
-    }
+  // const handleRegister = (e) => {
+  //   e.preventDefault();
+  //   const form = e.target;
+  //   const name = form.name.value;
+  //   if (name.length < 5) {
+  //     setNameError("Name should be more than 5 character");
+  //     return;
+  //   } else {
+  //     setNameError("");
+  //   }
+  //   const email = form.email.value;
+  //   const photo = form.photo.value;
+  //   const password = form.password.value;
 
-    if (!/[A-Z]/.test(password)) {
-      toast.error("Password must contain at least one uppercase letter");
-      return;
-    }
+  //   if (password.length < 6) {
+  //     toast.error("Password must be at least 6 characters long");
+  //     return;
+  //   }
 
-    if (!/[a-z]/.test(password)) {
-      toast.error("Password must contain at least one lowercase letter");
-      return;
-    }
+  //   if (!/[A-Z]/.test(password)) {
+  //     toast.error("Password must contain at least one uppercase letter");
+  //     return;
+  //   }
 
-    signUpWithEmail(email, password)
-      .then((result) => {
-        const user = result.user;
-        updateUser({
-          displayName: name,
-          photoURL: photo,
-        })
-          .then(() => {
-            setUser({ ...user, displayName: name, photoURL: photo });
-            navigate("/");
-          })
-          .catch((error) => {
-            console.log(error);
-            setUser(user);
-          });
-        toast.success("Register successful!", {
-          autoClose: 1500,
-        });
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        alert(errorMessage);
-        // ..
-      });
-  };
+  //   if (!/[a-z]/.test(password)) {
+  //     toast.error("Password must contain at least one lowercase letter");
+  //     return;
+  //   }
+
+  //   signUpWithEmail(email, password)
+  //     .then((result) => {
+  //       const user = result.user;
+  //       updateUser({
+  //         displayName: name,
+  //         photoURL: photo,
+  //       })
+  //         .then(() => {
+  //           setUser({ ...user, displayName: name, photoURL: photo });
+  //           navigate("/");
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //           setUser(user);
+  //         });
+  //       toast.success("Register successful!", {
+  //         autoClose: 1500,
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       const errorMessage = error.message;
+  //       alert(errorMessage);
+  //       // ..
+  //     });
+  // };
 
   return (
     <div
@@ -86,8 +98,6 @@ const Register = () => {
       {/* Dark overlay */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-xs"></div>
       <div className="w-full max-w-4xl mx-4">
-        {" "}
-        {/* Increased max-width */}
         <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden p-8">
           {/* Header */}
           <div className="text-center mb-8">
@@ -116,53 +126,56 @@ const Register = () => {
               </div>
             </div>
 
-            <form onSubmit={handleRegister} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {/* Column 1 */}
                 <div className="space-y-4">
                   <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Email
                     </label>
                     <input
                       type="email"
                       id="email"
+                      {...register("email", { required: true })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                      placeholder="your@email.com"
-                      required
+                      placeholder="Enter your mail"
                     />
+                    {errors.email?.type === "required" && (
+                      <p className="text-red-500">Email is required</p>
+                    )}
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Full Name
                     </label>
                     <input
                       type="text"
                       id="name"
+                      {...register("name", { required: true, minLength: 6 })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                      placeholder="John Doe"
-                      required
+                      placeholder="Enter your name"
                     />
+                    {errors.name && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.name?.type === "required"
+                          ? "Name is required"
+                          : "Name must be at least 6 characters"}
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="bloodGroup"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Blood Group
                     </label>
                     <select
                       id="bloodGroup"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                      required
+                      {...register("bloodGroup", {
+                        required: true,
+                      })}
                     >
                       <option value="">Select Blood Group</option>
                       <option value="A+">A+</option>
@@ -174,18 +187,26 @@ const Register = () => {
                       <option value="O+">O+</option>
                       <option value="O-">O-</option>
                     </select>
+                    {errors.name && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.bloodGroup?.type === "required" && (
+                          <p className="text-red-500">
+                            Blood Group is required
+                          </p>
+                        )}
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="district"
-                      className="block text-sm font-medium mb-1"
-                    >
+                    <label className="block text-sm font-medium mb-1">
                       District
                     </label>
                     <select
                       id="district"
-                      required
+                      {...register("district", {
+                        required: true,
+                      })}
                       className="w-full px-4 py-2 border rounded-lg border-gray-300"
                     >
                       <option value="">Select District</option>
@@ -195,20 +216,24 @@ const Register = () => {
                         </option>
                       ))}
                     </select>
+                    {errors?.district && (
+                      <p className="text-red-500 text-sm mt-1">
+                        District is required
+                      </p>
+                    )}
                   </div>
                 </div>
                 {/* Column 2 */}
                 <div className="space-y-4">
                   <div>
-                    <label
-                      htmlFor="upazila"
-                      className="block text-sm font-medium mb-1"
-                    >
+                    <label className="block text-sm font-medium mb-1">
                       Upazila
                     </label>
                     <select
                       id="upazila"
-                      required
+                      {...register("upazila", {
+                        required: true,
+                      })}
                       className="w-full px-4 py-2 border rounded-lg border-gray-300"
                     >
                       <option value="">Select Upazila</option>
@@ -218,53 +243,75 @@ const Register = () => {
                         </option>
                       ))}
                     </select>
+                    {errors.upazila && (
+                      <p className="text-red-500 text-sm mt-1">
+                        Upazilla is required
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="avatar"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Profile Picture
                     </label>
                     <input
                       type="file"
                       id="avatar"
                       accept="image/*"
+                      {...register("avatar", {
+                        required: "Profile picture is required",
+                      })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                     />
+                    {errors.avatar && (
+                      <p className="text-red-500 text-sm mt-1">
+                        Profile Picture is required
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="password"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Password
                     </label>
                     <input
                       type="password"
                       id="password"
+                      {...register("password", {
+                        required: true,
+                        minLength: 6,
+                      })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       placeholder="••••••••"
-                      required
                     />
+                    {errors.password && (
+                      <p className="text-red-500 text-sm mt-1">
+                        Password must be at least 6 characters
+                      </p>
+                    )}
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="confirmPassword"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Confirm Password
                     </label>
                     <input
                       type="password"
                       id="confirmPassword"
+                      {...register("confirmPassword", {
+                        required: true,
+                        minLength: 6,
+                        validate: (value) =>
+                          value === password || "Passwords do not match",
+                      })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                       placeholder="••••••••"
-                      required
                     />
+                    {errors.confirmPassword && (
+                      <p className="text-red-500 text-sm mt-1">
+                        Password doesn't match
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
