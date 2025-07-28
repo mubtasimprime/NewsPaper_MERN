@@ -52,12 +52,15 @@ const AuthProvider = ({ children }) => {
   };
 
   const logOut = () => {
+    setLoading(true);
     return signOut(auth);
   };
 
   useEffect(() => {
     const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+      console.log("User in the auth state change", currentUser);
+
       setLoading(false);
       // You can log it if needed for debugging
       // console.log("Current user:", currentUser);

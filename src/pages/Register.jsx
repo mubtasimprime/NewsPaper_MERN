@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { AuthContext } from "../context/AuthContext";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
+import useAuth from "../hooks/useAuth";
 
 const Register = () => {
   const [districts, setDistricts] = useState([]);
@@ -15,8 +16,17 @@ const Register = () => {
   } = useForm();
   const password = watch("password");
 
+  const { signUpWithEmail } = useAuth();
+
   const onSubmit = (data) => {
     console.log(data);
+    signUpWithEmail(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   useEffect(() => {
