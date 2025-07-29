@@ -9,13 +9,14 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.init";
-import { toast } from "react-toastify";
-import useAxiosSecure from "../hooks/useAxiosSecure";
+// import { toast } from "react-toastify";
+import useAxiosPublic from "../hooks/AxiosPublic";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const axiosSecure = useAxiosSecure();
+
+  const axiosPublic = useAxiosPublic();
 
   const signUpWithEmail = (email, password) => {
     setLoading(true);
@@ -37,10 +38,12 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log("🚀 ~ currentUser:", currentUser);
+
       if (currentUser) {
-        axiosSecure
-          .post("/user", {
+        axiosPublic
+          .post("/add-user", {
             email: currentUser.email,
             role: "donor",
           })
@@ -50,13 +53,14 @@ const AuthProvider = ({ children }) => {
           })
           .catch((error) => {
             console.error("Failed to save user:", error);
-          });
+          })
+          .finally(() => setLoading(false));
+      } else {
+        setLoading(false);
       }
-      setLoading(false);
     });
-    return () => {
-      unsubcribe();
-    };
+
+    return () => unsubscribe();
   }, []);
 
   const authInfo = {
