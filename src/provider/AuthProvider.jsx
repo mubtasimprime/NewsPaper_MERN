@@ -39,7 +39,7 @@ const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("🚀 ~ currentUser:", currentUser);
+      // console.log("🚀 ~ currentUser:", currentUser);
 
       if (currentUser) {
         axiosPublic
@@ -49,7 +49,7 @@ const AuthProvider = ({ children }) => {
           })
           .then((res) => {
             setUser(currentUser);
-            console.log(res.data);
+            // console.log(res.data);
           })
           .catch((error) => {
             console.error("Failed to save user:", error);
