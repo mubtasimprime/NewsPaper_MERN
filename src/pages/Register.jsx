@@ -1,10 +1,13 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
+import { auth } from "../firebase/firebase.init";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
   const {
@@ -17,17 +20,37 @@ const Register = () => {
 
   const { signUpWithEmail } = useAuth();
 
-  const onSubmit = (data) => {
-    // console.log(data);
-    signUpWithEmail(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
-        toast.success("Register in successfully!");
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error("Already Exist Email");
+  const onSubmit = async (data) => {
+    const { password, ...rest } = data;
+    const userData = {
+      ...rest,
+      password,
+      role: "donor",
+      status: "active",
+    };
+
+    try {
+      await signUpWithEmail(data.email, data.password);
+      await updateProfile(auth.currentUser, {
+        displayName: data.name,
+        photoURL: data.avatar,
       });
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/add-user`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(userData),
+      });
+      const result = await res.json();
+      if (result.insertedId || result.message === "User already exists") {
+        toast.success("Registration successful");
+        navigate("/");
+      } else {
+        toast.warn("Something went wrong saving to database");
+      }
+    } catch (error) {
+      toast.error("Registration failed");
+      console.log(error);
+    }
   };
 
   useEffect(() => {
@@ -39,32 +62,6 @@ const Register = () => {
       .then((res) => res.json())
       .then((data) => setUpazilas(data));
   }, []);
-
-  //   signUpWithEmail(email, password)
-  //     .then((result) => {
-  //       const user = result.user;
-  //       updateUser({
-  //         displayName: name,
-  //         photoURL: photo,
-  //       })
-  //         .then(() => {
-  //           setUser({ ...user, displayName: name, photoURL: photo });
-  //           navigate("/");
-  //         })
-  //         .catch((error) => {
-  //           console.log(error);
-  //           setUser(user);
-  //         });
-  //       toast.success("Register successful!", {
-  //         autoClose: 1500,
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       const errorMessage = error.message;
-  //       alert(errorMessage);
-  //       // ..
-  //     });
-  // };
 
   return (
     <div
@@ -230,20 +227,19 @@ const Register = () => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Profile Picture
+                      Profile Picture URL
                     </label>
                     <input
-                      type="file"
-                      id="avatar"
-                      accept="image/*"
+                      type="url"
                       {...register("avatar", {
-                        required: "Profile picture is required",
+                        required: "Profile picture URL is required",
                       })}
+                      placeholder="Enter image URL"
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                     />
                     {errors.avatar && (
                       <p className="text-red-500 text-sm mt-1">
-                        Profile Picture is required
+                        {errors.avatar.message}
                       </p>
                     )}
                   </div>

@@ -9,14 +9,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.init";
-// import { toast } from "react-toastify";
-import useAxiosPublic from "../hooks/AxiosPublic";
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const axiosPublic = useAxiosPublic();
 
   const signUpWithEmail = (email, password) => {
     setLoading(true);
@@ -34,30 +30,18 @@ const AuthProvider = ({ children }) => {
 
   const logOut = () => {
     setLoading(true);
-    return signOut(auth);
+    return signOut(auth).then(() => {
+      setUser(null);
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      // console.log("🚀 ~ currentUser:", currentUser);
-
       if (currentUser) {
-        axiosPublic
-          .post("/add-user", {
-            email: currentUser.email,
-            role: "donor",
-          })
-          .then((res) => {
-            setUser(currentUser);
-            // console.log(res.data);
-          })
-          .catch((error) => {
-            console.error("Failed to save user:", error);
-          })
-          .finally(() => setLoading(false));
-      } else {
-        setLoading(false);
+        setUser(currentUser);
       }
+      setLoading(false);
     });
 
     return () => unsubscribe();

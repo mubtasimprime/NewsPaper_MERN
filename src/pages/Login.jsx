@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import useAuth from "../hooks/useAuth";
 import { toast } from "react-toastify";
 
 const Login = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -18,6 +19,7 @@ const Login = () => {
       .then((result) => {
         console.log(result.user);
         toast.success("Logged in successfully!");
+        navigate("/");
       })
       .catch((error) => {
         toast.error("Invalid email or password");

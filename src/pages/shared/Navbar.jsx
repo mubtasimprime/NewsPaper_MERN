@@ -1,20 +1,25 @@
 import { Link, NavLink } from "react-router";
 import Logo from "../../assets/logo_blood.png";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
 import { toast } from "react-toastify";
+import { auth } from "../../firebase/firebase.init";
 
 const Navbar = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const handleLogout = () => {
-    logOut()
-      .then(() => {
-        toast.success("Logout successful!", {
-          autoClose: 1500,
-        });
-      })
-      .catch((error) => console.log(error));
+    auth.signOut().then(() => {
+      setUser(null);
+      toast.success("Logout successful!", { autoClose: 1500 });
+    });
   };
 
   const navItems = (
@@ -53,23 +58,21 @@ const Navbar = () => {
         </NavLink>
       </li>
       {user && (
-        <>
-          {" "}
-          <li>
-            <NavLink
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              to="/funding"
-              className={({ isActive }) =>
-                isActive ? "text-10 font-semibold" : "hover:scale-105"
-              }
-            >
-              Funding
-            </NavLink>
-          </li>
-        </>
+        <li>
+          <NavLink
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            to="/funding"
+            className={({ isActive }) =>
+              isActive ? "text-10 font-semibold" : "hover:scale-105"
+            }
+          >
+            Funding
+          </NavLink>
+        </li>
       )}
     </>
   );
+
   return (
     <div className="navbar max-w-9/12 mx-auto">
       <div className="navbar-start">
@@ -82,13 +85,12 @@ const Navbar = () => {
               viewBox="0 0 24 24"
               stroke="currentColor"
             >
-              {" "}
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
                 d="M4 6h16M4 12h8m-8 6h16"
-              />{" "}
+              />
             </svg>
           </div>
           <ul
@@ -109,13 +111,14 @@ const Navbar = () => {
           </h1>
         </Link>
       </div>
+
       <div className="navbar-center hidden lg:flex">
         <ul className="flex gap-6 items-center justify-center text-lg font-medium text-10">
           {navItems}
         </ul>
       </div>
 
-      {/* End: Right Buttons / Avatar */}
+      {/* Right side avatar / login */}
       <div className="navbar-end">
         {!user ? (
           <Link
@@ -131,9 +134,9 @@ const Navbar = () => {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-10 rounded-full">
+              <div className="w-10 rounded-full border">
                 <img
-                  alt="user avatar"
+                  alt="User Avatar"
                   src={
                     user.photoURL || "https://i.ibb.co/ZYW3VTp/blood-avatar.png"
                   }
@@ -141,6 +144,11 @@ const Navbar = () => {
               </div>
             </div>
             <ul className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-40">
+              <li className="text-center">
+                <span className="font-semibold text-sm">
+                  {user.displayName || "User"}
+                </span>
+              </li>
               <li>
                 <Link to="/dashboard">Dashboard</Link>
               </li>
