@@ -26,7 +26,7 @@ const Register = () => {
       })
       .catch((error) => {
         console.log(error);
-        toast.error("Something error");
+        toast.error("Already Exist Email");
       });
   };
 

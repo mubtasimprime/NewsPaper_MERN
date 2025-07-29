@@ -40,10 +40,13 @@ const AuthProvider = ({ children }) => {
     const unsubcribe = onAuthStateChanged(auth, (currentUser) => {
       if (currentUser) {
         axiosSecure
-          .post("/user", { email: currentUser.email, role: "donor" })
+          .post("/user", {
+            email: currentUser.email,
+            role: "donor",
+          })
           .then((res) => {
-            console.log(res.data);
             setUser(currentUser);
+            console.log(res.data);
           })
           .catch((error) => {
             console.error("Failed to save user:", error);

@@ -66,17 +66,6 @@ const Navbar = () => {
               Funding
             </NavLink>
           </li>
-          <li>
-            <NavLink
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              to="/dashboard"
-              className={({ isActive }) =>
-                isActive ? "text-10 font-semibold" : "hover:scale-105"
-              }
-            >
-              Funding
-            </NavLink>
-          </li>
         </>
       )}
     </>
