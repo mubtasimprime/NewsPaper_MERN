@@ -12,7 +12,6 @@ export default function useRole() {
     if (user?.email) {
       axiosSecure(`/get-user-role?email=${user.email}`)
         .then((res) => {
-          // console.log("Fetched role:", res.data.role);
           setRole(res.data.role);
         })
         .catch((err) => {

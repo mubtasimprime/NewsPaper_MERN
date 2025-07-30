@@ -9,6 +9,9 @@ import Blog from "../pages/Blog";
 import Funding from "../pages/Funding";
 import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layout/DashboardLayout";
+import UserProfile from "../pages/UserProfile";
+import Dashboard from "../pages/Dashboard/DashBoard";
+import AdminDashboard from "../pages/Dashboard/AdminDashboard";
 
 export const router = createBrowserRouter([
   {
@@ -42,9 +45,19 @@ export const router = createBrowserRouter([
     path: "/dashboard",
     element: (
       <PrivateRoute>
-        <DashboardLayout></DashboardLayout>
+        <DashboardLayout />
       </PrivateRoute>
     ),
-    children: [],
+    children: [
+      { index: true, element: <Dashboard /> },
+      {
+        path: "profile",
+        element: <UserProfile />,
+      },
+      {
+        path: "all-users",
+        element: <AdminDashboard />,
+      },
+    ],
   },
 ]);

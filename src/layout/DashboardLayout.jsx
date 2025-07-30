@@ -1,28 +1,23 @@
-import { Navigate } from "react-router";
-import Loading from "../pages/shared/Loading";
-import AdminDashboard from "../pages/Dashboard/AdminDashboard";
-import VolunteerDashboard from "../pages/Dashboard/VolunteerDashboard";
-import DonorDashboard from "../pages/Dashboard/DonorDashboard";
-import useRole from "../hooks/useRole";
+import { Outlet } from "react-router";
+import DashboardSidebar from "../components/DashboardSidebar";
 
-export default function Dashboard() {
-  const { role, loading } = useRole();
+const DashboardLayout = () => {
+  return (
+    <div className="min-h-screen flex bg-gray-100">
+      {/* Sidebar */}
+      <aside className="w-64 bg-white shadow-md p-5 hidden md:block">
+        <div className="text-2xl font-bold mb-10 text-center text-blue-600">
+          DashBoard
+        </div>
+        <DashboardSidebar></DashboardSidebar>
+      </aside>
 
-  if (loading) {
-    return <Loading></Loading>;
-  }
-  console.log("Role is:", role);
+      {/* Main Content */}
+      <div className="flex-1 p-4 md:p-6">
+        <Outlet />
+      </div>
+    </div>
+  );
+};
 
-  if (role === "donor") {
-    return <DonorDashboard></DonorDashboard>;
-  }
-  if (role === "volunteer") {
-    return <VolunteerDashboard></VolunteerDashboard>;
-  }
-
-  if (role === "admin") {
-    return <AdminDashboard></AdminDashboard>;
-  }
-
-  return <Navigate to={"/"} />;
-}
+export default DashboardLayout;

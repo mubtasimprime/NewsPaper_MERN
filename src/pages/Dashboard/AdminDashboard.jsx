@@ -2,12 +2,15 @@ import { useEffect, useState, useContext } from "react";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { AuthContext } from "../../context/AuthContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 export const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const axiosSecure = useAxiosSecure();
   const { user } = useContext(AuthContext);
+
+  const navigate = useNavigate();
 
   const handleRoleChange = async (e, email) => {
     const role = e.target.value;
@@ -91,6 +94,17 @@ export const AdminDashboard = () => {
                     </p>
                   )}
                 </div>
+              </div>
+              <div className="flex flex-col justify-center gap-2">
+                {/* View Profile button */}
+                <button
+                  onClick={() =>
+                    navigate(`/dashboard/profile?email=${userData.email}`)
+                  }
+                  className="btn btn-sm btn-primary"
+                >
+                  View Profile
+                </button>
               </div>
             </div>
           );
