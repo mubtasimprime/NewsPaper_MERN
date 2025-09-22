@@ -17,3 +17,7 @@
 .text-4 {
   @apply text-[#B32346];
 }
+
+.bg-dark-green {
+  background-color: #006400;
+}

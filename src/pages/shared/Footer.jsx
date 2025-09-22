@@ -1,5 +1,5 @@
 import React from "react";
-import Logo from "../../assets/logo_blood.png";
+import Logo from "../../assets/logo_.jpg";
 import { Link } from "react-router";
 
 const Footer = () => {

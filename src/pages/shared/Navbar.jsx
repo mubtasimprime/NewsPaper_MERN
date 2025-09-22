@@ -1,5 +1,5 @@
 import { Link, NavLink } from "react-router";
-import Logo from "../../assets/logo_blood.png";
+import Logo from "../../assets/logo_.jpg";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { toast } from "react-toastify";
