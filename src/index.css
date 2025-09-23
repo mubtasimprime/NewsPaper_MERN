@@ -6,16 +6,24 @@
   font-family: "Lato", sans-serif;
 }
 
-.text-10 {
-  @apply text-[#46052D];
+.text-1 {
+  @apply text-[#b2d8d8];
 }
 
-.text-1 {
-  @apply text-[#B32346];
+.text-2 {
+  @apply text-[#66b2b2];
+}
+
+.text-3 {
+  @apply text-[#008080];
 }
 
 .text-4 {
-  @apply text-[#B32346];
+  @apply text-[#006666];
+}
+
+.text-5 {
+  @apply text-[#004c4c];
 }
 
 .bg-dark-green {

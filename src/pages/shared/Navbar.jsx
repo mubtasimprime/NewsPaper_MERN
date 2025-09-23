@@ -1,8 +1,13 @@
 import { Link, NavLink } from "react-router";
-import Logo from "../../assets/logo_.jpg";
+import Logo from "../../assets/fav-logo.png";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { toast } from "react-toastify";
+import { FaHome } from "react-icons/fa";
+import { RiArticleFill } from "react-icons/ri";
+import { PiArticleFill } from "react-icons/pi";
+import { MdSubscriptions } from "react-icons/md";
+import { PiArticleMediumFill } from "react-icons/pi";
 import { auth } from "../../firebase/firebase.init";
 
 const Navbar = () => {
@@ -29,44 +34,73 @@ const Navbar = () => {
           to="/"
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className={({ isActive }) =>
-            isActive ? "text-10 font-semibold" : "hover:scale-105"
+            isActive
+              ? "text-4 font-semibold flex items-center gap-1"
+              : "hover:scale-105 flex items-center gap-1"
           }
         >
+          <FaHome size={20} />
           Home
         </NavLink>
       </li>
       <li>
         <NavLink
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          to="/donation-request"
+          to="/add-article"
           className={({ isActive }) =>
-            isActive ? "text-10 font-semibold" : "hover:scale-105"
+            isActive
+              ? "text-4 font-semibold flex items-center gap-1"
+              : "hover:scale-105 flex items-center gap-1"
           }
         >
-          Donation Requests
+          <RiArticleFill />
+          Add Articles
         </NavLink>
       </li>
       <li>
         <NavLink
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          to="/blog"
+          to="/all-articles"
           className={({ isActive }) =>
-            isActive ? "text-10 font-semibold" : "hover:scale-105"
+            isActive
+              ? "text-4 font-semibold flex items-center gap-1"
+              : "hover:scale-105 flex items-center gap-1"
           }
         >
-          Blog
+          <PiArticleFill />
+          All Articles
         </NavLink>
       </li>
       {user && (
         <li>
           <NavLink
             onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            to="/funding"
+            to="/subscription"
             className={({ isActive }) =>
-              isActive ? "text-10 font-semibold" : "hover:scale-105"
+              isActive
+                ? "text-4 font-semibold flex items-center gap-1"
+                : "hover:scale-105 flex items-center gap-1"
             }
           >
-            Funding
+            <MdSubscriptions />
+            Subscription
+          </NavLink>
+        </li>
+      )}
+
+      {user && (
+        <li>
+          <NavLink
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            to="/my-articles"
+            className={({ isActive }) =>
+              isActive
+                ? "text-4 font-semibold flex items-center gap-1"
+                : "hover:scale-105 flex items-center gap-1"
+            }
+          >
+            <PiArticleMediumFill />
+            My Articles
           </NavLink>
         </li>
       )}
@@ -103,17 +137,17 @@ const Navbar = () => {
         <Link
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/"
-          className="flex items-center"
+          className="flex items-center gap-3"
         >
           <img className="w-12 h-12 md:w-12 md:h-12" src={Logo} alt="" />
           <h1 className="md:text-2xl">
-            Donate<span className="text-1 font-black">Blood</span>
+            Prime<span className="text-3 font-black">News</span>
           </h1>
         </Link>
       </div>
 
       <div className="navbar-center hidden lg:flex">
-        <ul className="flex gap-6 items-center justify-center text-lg font-medium text-10">
+        <ul className="flex gap-6 items-center justify-center text-lg font-medium text-4">
           {navItems}
         </ul>
       </div>
@@ -121,12 +155,20 @@ const Navbar = () => {
       {/* Right side avatar / login */}
       <div className="navbar-end">
         {!user ? (
-          <Link
-            to="/auth/login"
-            className="bg-[#46052D] hover:bg-[#B32346] transition duration-300 text-white px-5 py-1 rounded-md"
-          >
-            LogIn
-          </Link>
+          <div className="flex gap-3">
+            <Link
+              to="/auth/login"
+              className="bg-[#004c4c] hover:bg-[#006666] transition duration-300 text-white px-5 py-1 rounded-md"
+            >
+              SignIn
+            </Link>
+            <Link
+              to="/auth/register"
+              className="bg-[#004c4c] hover:bg-[#006666] transition duration-300 text-white px-5 py-1 rounded-md"
+            >
+              SignUp
+            </Link>
+          </div>
         ) : (
           <div className="dropdown dropdown-end">
             <div
