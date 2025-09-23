@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import useAuth from "../hooks/useAuth";
@@ -7,7 +7,12 @@ import { auth } from "../firebase/firebase.init";
 import { updateProfile } from "firebase/auth";
 
 const Register = () => {
+  const { signUpWithEmail } = useAuth();
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
+
   const [districts, setDistricts] = useState([]);
   const [upazilas, setUpazilas] = useState([]);
   const {
@@ -17,8 +22,6 @@ const Register = () => {
     watch,
   } = useForm();
   const password = watch("password");
-
-  const { signUpWithEmail } = useAuth();
 
   const onSubmit = async (data) => {
     const { password, ...rest } = data;
@@ -43,7 +46,7 @@ const Register = () => {
       const result = await res.json();
       if (result.insertedId || result.message === "User already exists") {
         toast.success("Registration successful");
-        navigate("/");
+        navigate(from);
       } else {
         toast.warn("Something went wrong saving to database");
       }
