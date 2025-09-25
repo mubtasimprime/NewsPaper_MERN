@@ -4,9 +4,10 @@ import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
 import { auth } from "../../firebase/firebase.init";
 import { updateProfile } from "firebase/auth";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
-  const { signUpWithEmail } = useAuth();
+  const { signUpWithEmail, signInWithGoogle } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -20,13 +21,23 @@ const Register = () => {
   } = useForm();
   // const password = watch("password");
 
+  const handleGoogleSignIn = () => {
+    signInWithGoogle()
+      .then((res) => {
+        console.log(res.user);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   const onSubmit = async (data) => {
     const { password, ...rest } = data;
     const userData = {
       ...rest,
       password,
-      role: "donor",
-      status: "active",
+      // role: "donor",
+      // status: "active",
     };
 
     try {
@@ -56,7 +67,7 @@ const Register = () => {
     <div
       className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-cover bg-center py-10 md:py-0"
       style={{
-        backgroundImage: "url(https://i.ibb.co/21LxNSMf/18300586-5969395.jpg)",
+        backgroundImage: "url(https://i.ibb.co.com/SXQYs713/signup.jpg)",
       }}
     >
       {/* Dark overlay */}
@@ -190,6 +201,18 @@ const Register = () => {
                 Register Now
               </button>
             </form>
+            <div className="divider text-gray-400 dark:text-gray-500 mt-6">
+              OR
+            </div>
+
+            {/* Google Login */}
+            <button
+              onClick={handleGoogleSignIn}
+              type="button"
+              className="btn w-full flex items-center justify-center gap-2 border-gray-300"
+            >
+              <FcGoogle size={20} /> Sign in with Google
+            </button>
           </div>
         </div>
       </div>

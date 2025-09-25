@@ -1,14 +1,12 @@
 import axios from "axios";
-import { useEffect } from "react";
+// import { useEffect } from "react";
+
+const axiosSecure = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
 
 const useAxiosSecure = () => {
-  const instance = axios.create({
-    baseURL: import.meta.env.VITE_API_URL,
-  });
-
-  useEffect(() => {}, []);
-
-  return instance;
+  return axiosSecure;
 };
 
 export default useAxiosSecure;
