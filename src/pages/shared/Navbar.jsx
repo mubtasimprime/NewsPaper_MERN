@@ -71,39 +71,36 @@ const Navbar = () => {
           All Articles
         </NavLink>
       </li>
-      {user && (
-        <li>
-          <NavLink
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            to="/subscription"
-            className={({ isActive }) =>
-              isActive
-                ? "text-4 font-semibold flex items-center gap-1"
-                : "hover:scale-105 flex items-center gap-1"
-            }
-          >
-            <MdSubscriptions />
-            Subscription
-          </NavLink>
-        </li>
-      )}
 
-      {user && (
-        <li>
-          <NavLink
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-            to="/my-articles"
-            className={({ isActive }) =>
-              isActive
-                ? "text-4 font-semibold flex items-center gap-1"
-                : "hover:scale-105 flex items-center gap-1"
-            }
-          >
-            <PiArticleMediumFill />
-            My Articles
-          </NavLink>
-        </li>
-      )}
+      <li>
+        <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          to="/subscription"
+          className={({ isActive }) =>
+            isActive
+              ? "text-4 font-semibold flex items-center gap-1"
+              : "hover:scale-105 flex items-center gap-1"
+          }
+        >
+          <MdSubscriptions />
+          Subscription
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          to="/my-articles"
+          className={({ isActive }) =>
+            isActive
+              ? "text-4 font-semibold flex items-center gap-1"
+              : "hover:scale-105 flex items-center gap-1"
+          }
+        >
+          <PiArticleMediumFill />
+          My Articles
+        </NavLink>
+      </li>
     </>
   );
 

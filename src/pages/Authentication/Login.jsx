@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
-import useAuth from "../hooks/useAuth";
+import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 
 const Login = () => {
@@ -42,22 +42,21 @@ const Login = () => {
         <div className="bg-white bg-opacity-90 backdrop-blur-sm rounded-xl shadow-lg overflow-hidden p-8">
           {/* Header */}
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-red-700 tracking-tight">
-              DONATE
+            <h1 className="text-3xl font-bold text-3 tracking-tight noto">
+              PRIME
             </h1>
-            <h2 className="text-2xl font-bold text-red-700 mb-3">BLOOD</h2>
-            <p className="text-gray-600 text-sm">
-              Every drop counts in saving lives. Your donation can make a
-              difference.
+            <h2 className="text-2xl font-bold text-3 mb-3 noto">NEWS</h2>
+            <p className="text-3 text-sm">
+              News is the presentation of information. Log In Now !
             </p>
           </div>
 
           {/* Login Form */}
           <div>
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold text-gray-800">SIGN</h3>
+              <h3 className="text-lg font-semibold text-4">SIGN IN</h3>
               <div className="text-sm">
-                <span className="text-gray-500">Don't have an account? </span>
+                <span className="text-3">Don't have an account? </span>
                 <Link
                   to="/auth/register"
                   className="text-blue-600 font-medium hover:underline"
@@ -69,7 +68,7 @@ const Login = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-3 mb-1">
                   Email
                 </label>
                 <input
@@ -83,7 +82,7 @@ const Login = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-3 mb-1">
                   Password
                 </label>
                 <input
@@ -106,14 +105,14 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="w-full bg-[#004c4c] hover:bg-[#006666] text-white font-medium py-2 px-4 rounded-lg transition duration-200 focus:outline-none cursor-pointer"
               >
                 Log in now
               </button>
             </form>
 
             <div className="mt-4 text-center">
-              <button className="text-sm text-blue-600 hover:underline">
+              <button className="text-sm text-3 hover:underline">
                 Forget password
               </button>
             </div>

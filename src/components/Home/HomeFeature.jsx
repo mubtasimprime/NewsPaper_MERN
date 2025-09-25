@@ -32,7 +32,7 @@ const features = [
 const HomeFeature = () => {
   return (
     <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-7xl mx-auto text-center">
+      <div className="max-w-9/12 mx-auto text-center">
         <h2 className="text-3xl font-bold text-gray-800 mb-6">
           Why Choose DonateBlood?
         </h2>
