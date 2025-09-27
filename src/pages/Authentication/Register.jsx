@@ -2,16 +2,21 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import useAuth from "../../hooks/useAuth";
-import { auth } from "../../firebase/firebase.init";
-import { updateProfile } from "firebase/auth";
 import { FcGoogle } from "react-icons/fc";
+import { useState } from "react";
+import { FaUpload, FaUserGraduate } from "react-icons/fa";
+import axios from "axios";
 
 const Register = () => {
-  const { signUpWithEmail, signInWithGoogle } = useAuth();
+  const { signUpWithEmail, signInWithGoogle, updateUser } = useAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
+
+  const [previewImage, setPreviewImage] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   const {
     register,
@@ -25,39 +30,58 @@ const Register = () => {
     signInWithGoogle()
       .then((res) => {
         console.log(res.user);
+        navigate(from);
       })
       .catch((error) => {
         console.log(error);
       });
   };
 
+  const handleImageUpload = async (e) => {
+    const image = e.target.files[0];
+
+    setPreviewImage(URL.createObjectURL(image));
+    setUploading(true);
+
+    const formData = new FormData();
+    formData.append("image", image);
+
+    try {
+      const imageUrl = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_image_upload_key
+      }`;
+
+      const res = await axios.post(imageUrl, formData);
+      const hostedUrl = res.data.data.url;
+
+      setAvatarUrl(hostedUrl);
+      toast.success("Image uploaded");
+    } catch (error) {
+      console.error(error);
+      toast.error("Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const onSubmit = async (data) => {
-    const { password, ...rest } = data;
-    const userData = {
-      ...rest,
-      password,
-      // role: "donor",
-      // status: "active",
-    };
+    // const { password, ...rest } = data;
+    // const userData = {
+    //   ...rest,
+    //   password,
+    //   // role: "donor",
+    //   // status: "active",
+    // };
 
     try {
       await signUpWithEmail(data.email, data.password);
-      await updateProfile(auth.currentUser, {
+      await updateUser({
         displayName: data.name,
-        photoURL: data.avatar,
+        photoURL: avatarUrl || "https://i.ibb.co/4pDNDk1/avatar.png",
       });
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/add-user`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
-      const result = await res.json();
-      if (result.insertedId || result.message === "User already exists") {
-        toast.success("Registration successful");
-        navigate(from);
-      } else {
-        toast.warn("Something went wrong saving to database");
-      }
+
+      toast.success("Registration successful");
+      navigate(from);
     } catch (error) {
       toast.error("Registration failed");
       console.log(error);
@@ -124,23 +148,50 @@ const Register = () => {
                     )}
                   </div>
 
+                  {/* Image Upload */}
                   <div>
-                    <label className="block text-sm font-medium text-3 mb-1">
-                      Profile Picture URL
+                    <label className="block text-sm font-sm text-3">
+                      Profile Picture
                     </label>
-                    <input
-                      type="url"
-                      {...register("avatar", {
-                        required: "Profile picture URL is required",
-                      })}
-                      placeholder="Enter image URL"
-                      className="w-full px-4 py-2 border border-[#b2d8d8] rounded-lg focus:ring-2 focus:ring-[#66b2b2] focus:border-[#66b2b2] outline-none transition"
-                    />
-                    {errors.avatar && (
-                      <p className="text-red-500 text-sm mt-1">
-                        {errors.avatar.message}
-                      </p>
-                    )}
+                    <div className="flex items-center gap-4">
+                      {previewImage ? (
+                        <img
+                          src={previewImage}
+                          alt="Preview"
+                          className="w-16 h-16 rounded-full object-cover border-1 border-[#004c4c]"
+                        />
+                      ) : (
+                        <div className="w-16 h-16 rounded-full bg-[#004c4c] flex items-center justify-center">
+                          <span className="text-white border-none">
+                            <FaUserGraduate size={28} />
+                          </span>
+                        </div>
+                      )}
+                      <label className="flex-1">
+                        <div className="btn border border-[#b2d8d8] w-full flex items-center justify-center gap-2 font-medium bg-white">
+                          {uploading ? (
+                            <>
+                              <span className="loading loading-spinner text-primary"></span>
+                              Uploading...
+                            </>
+                          ) : (
+                            <>
+                              <FaUpload />{" "}
+                              <span className="text-gray-500">
+                                Upload Image
+                              </span>
+                            </>
+                          )}
+                          <input
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
+                            className="hidden"
+                          />
+                        </div>
+                      </label>
+                    </div>
+                    {/* <input {...register("photoUrl")} type="hidden" /> */}
                   </div>
 
                   <div>

@@ -20,6 +20,7 @@ const Login = () => {
     signInWithGoogle()
       .then((res) => {
         console.log(res.user);
+        navigate(from);
       })
       .catch((error) => {
         console.log(error);
@@ -133,7 +134,7 @@ const Login = () => {
 
             {/* Google Login */}
             <button
-              onSubmit={handleGoogleSignIn}
+              onClick={handleGoogleSignIn}
               type="button"
               className="btn w-full flex items-center justify-center gap-2 border-gray-300"
             >

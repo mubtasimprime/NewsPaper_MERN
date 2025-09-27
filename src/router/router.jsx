@@ -2,17 +2,16 @@ import { createBrowserRouter } from "react-router";
 import RootLayout from "../layout/RootLayout";
 import Home from "../pages/Home";
 import AuthLayout from "../layout/AuthLayout";
-import DonationRequest from "../pages/DonationRequest";
 import Blog from "../pages/Blog";
 import Funding from "../pages/Funding";
 import PrivateRoute from "../routes/PrivateRoute";
 import DashboardLayout from "../layout/DashboardLayout";
-import UserProfile from "../pages/UserProfile";
 import Dashboard from "../pages/Dashboard/DashBoard";
-import AdminDashboard from "../pages/Dashboard/AdminDashboard";
 import ErrorLayout from "../layout/ErrorLayout";
 import Register from "../pages/Authentication/Register";
 import Login from "../pages/Authentication/Login";
+import AllUsers from "../pages/Dashboard/AllUsers";
+import AllArticles from "../pages/Dashboard/AllArticles";
 
 export const router = createBrowserRouter([
   {
@@ -74,13 +73,17 @@ export const router = createBrowserRouter([
     children: [
       { index: true, element: <Dashboard /> },
       {
-        path: "profile",
-        element: <UserProfile />,
+        path: "all-users",
+        element: <AllUsers></AllUsers>,
       },
       {
-        path: "all-users",
-        element: <AdminDashboard />,
+        path: "all-articles",
+        element: <AllArticles></AllArticles>,
       },
+      // {
+      //   path: "add-publisher",
+      //   element:
+      // },
     ],
   },
 ]);

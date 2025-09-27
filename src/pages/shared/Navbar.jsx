@@ -11,7 +11,9 @@ import { PiArticleMediumFill } from "react-icons/pi";
 import { auth } from "../../firebase/firebase.init";
 
 const Navbar = () => {
+  
   const [user, setUser] = useState(null);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
