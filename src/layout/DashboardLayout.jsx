@@ -1,7 +1,20 @@
 import { Outlet } from "react-router";
 import DashboardSidebar from "../components/DashboardSidebar";
+import { useEffect, useState } from "react";
+import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
+  const { user } = useAuth();
+  const [userRole, setUserRole] = useState(null);
+
+  useEffect(() => {
+    if (!user?.email) return;
+
+    fetch(`${import.meta.env.VITE_API_URL}/user-role?email=${user.email}`)
+      .then((res) => res.json())
+      .then((data) => setUserRole(data.role));
+  }, [user?.email]);
+
   return (
     <div className="min-h-screen flex bg-gray-100">
       {/* Sidebar */}
@@ -9,7 +22,7 @@ const DashboardLayout = () => {
         <div className="text-2xl font-bold mb-10 text-center text-blue-600">
           DashBoard
         </div>
-        <DashboardSidebar></DashboardSidebar>
+        <DashboardSidebar userRole={userRole} />
       </aside>
 
       {/* Main Content */}

@@ -1,41 +1,22 @@
-import { NavLink } from "react-router";
-import useRole from "../hooks/useRole";
-export default function DashboardSidebar() {
-  const NavItem = ({ to, icon, label }) => (
-    <NavLink
-      to={to}
-      className={({ isActive }) =>
-        `flex items-center gap-3 px-4 py-2 rounded-lg font-medium ${
-          isActive
-            ? "bg-blue-100 text-blue-600"
-            : "text-gray-700 hover:bg-gray-200"
-        }`
-      }
-    >
-      {icon} {label}
-    </NavLink>
-  );
+import { Link } from "react-router";
 
-  const { role, loading } = useRole();
-
-  if (loading) return <div className="p-4">Loading...</div>;
-
+const DashboardSidebar = ({ userRole }) => {
   return (
-    <nav className="flex flex-col gap-4">
-      <NavItem to="/dashboard" label="Dashboard Home" />
+    <div className="flex flex-col space-y-4">
+      <Link to="/dashboard">Dashboard Home</Link>
+      <Link to="/dashboard/profile">Profile</Link>
+      <Link to="/">Home</Link>
 
-      {role === "admin" && (
+      {/* Admin-only links */}
+      {userRole === "admin" && (
         <>
-          <NavItem to="/dashboard/all-users" label="All Users" />
-          <NavItem to="/dashboard/my-requests" label="All Requests" />
+          <Link to="/dashboard/users">All Users Page</Link>
+          <Link to="/dashboard/articles">All Articles Page</Link>
+          <Link to="/dashboard/add-publisher">Add Publisher Page</Link>
         </>
       )}
-
-      {(role === "volunteer" || role === "donor") && (
-        <NavItem to="/dashboard/my-requests" label="My Requests" />
-      )}
-
-      <NavItem to="/dashboard/profile" label="Profile" />
-    </nav>
+    </div>
   );
-}
+};
+
+export default DashboardSidebar;
