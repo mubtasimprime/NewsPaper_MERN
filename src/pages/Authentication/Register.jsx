@@ -6,9 +6,11 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { FaUpload, FaUserGraduate } from "react-icons/fa";
 import axios from "axios";
+import useGoogleAuth from "../../hooks/useGoogleAuth";
 
 const Register = () => {
-  const { signUpWithEmail, signInWithGoogle, updateUser } = useAuth();
+  const { signUpWithEmail, updateUser } = useAuth();
+  const handleGoogleAuth = useGoogleAuth();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -22,20 +24,7 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    // watch,
   } = useForm();
-  // const password = watch("password");
-
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then((res) => {
-        console.log(res.user);
-        navigate(from);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const handleImageUpload = async (e) => {
     const image = e.target.files[0];
@@ -65,20 +54,25 @@ const Register = () => {
   };
 
   const onSubmit = async (data) => {
-    // const { password, ...rest } = data;
-    // const userData = {
-    //   ...rest,
-    //   password,
-    //   // role: "donor",
-    //   // status: "active",
-    // };
-
     try {
       await signUpWithEmail(data.email, data.password);
+
       await updateUser({
         displayName: data.name,
         photoURL: avatarUrl || "https://i.ibb.co/4pDNDk1/avatar.png",
       });
+
+      const now = new Date().toISOString();
+      const newUser = {
+        name: data.name,
+        email: data.email,
+        photoURL: avatarUrl || "https://i.ibb.co/4pDNDk1/avatar.png",
+        role: "user",
+        createdAt: now,
+        lastLoggedIn: now,
+      };
+
+      await axios.post(`${import.meta.env.VITE_API_URL}/add-user`, newUser);
 
       toast.success("Registration successful");
       navigate(from);
@@ -258,7 +252,7 @@ const Register = () => {
 
             {/* Google Login */}
             <button
-              onClick={handleGoogleSignIn}
+              onClick={handleGoogleAuth}
               type="button"
               className="btn w-full flex items-center justify-center gap-2 border-gray-300"
             >

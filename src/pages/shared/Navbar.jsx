@@ -11,7 +11,6 @@ import { PiArticleMediumFill } from "react-icons/pi";
 import { auth } from "../../firebase/firebase.init";
 
 const Navbar = () => {
-  
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -176,12 +175,7 @@ const Navbar = () => {
               className="btn btn-ghost btn-circle avatar"
             >
               <div className="w-10 rounded-full border">
-                <img
-                  alt="User Avatar"
-                  src={
-                    user.photoURL || "https://i.ibb.co/ZYW3VTp/blood-avatar.png"
-                  }
-                />
+                <img alt="User Avatar" src={user.photoURL || null} />
               </div>
             </div>
             <ul className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-40">

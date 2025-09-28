@@ -3,9 +3,12 @@ import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
+import useGoogleAuth from "../../hooks/useGoogleAuth";
 
 const Login = () => {
-  const { signInWithEmail, signInWithGoogle } = useAuth();
+  const { signInWithEmail } = useAuth();
+  const handleGoogleAuth = useGoogleAuth();
+
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state || "/";
@@ -15,17 +18,6 @@ const Login = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const handleGoogleSignIn = () => {
-    signInWithGoogle()
-      .then((res) => {
-        console.log(res.user);
-        navigate(from);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
 
   const onSubmit = (data) => {
     console.log(data);
@@ -134,7 +126,7 @@ const Login = () => {
 
             {/* Google Login */}
             <button
-              onClick={handleGoogleSignIn}
+              onClick={handleGoogleAuth}
               type="button"
               className="btn w-full flex items-center justify-center gap-2 border-gray-300"
             >
