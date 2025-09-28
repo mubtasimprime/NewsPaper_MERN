@@ -1,20 +1,68 @@
-import { Link } from "react-router";
+import { NavLink } from "react-router";
+import { MdDashboard, MdHome } from "react-icons/md";
+import {
+  FaUserCircle,
+  FaUsers,
+  FaNewspaper,
+  FaPlusCircle,
+  FaArrowLeft,
+} from "react-icons/fa";
 
 const DashboardSidebar = ({ userRole }) => {
-  return (
-    <div className="flex flex-col space-y-4">
-      <Link to="/dashboard">Dashboard Home</Link>
-      <Link to="/dashboard/profile">Profile</Link>
-      <Link to="/">Home</Link>
+  const linkClasses = ({ isActive }) =>
+    `flex items-center gap-2 px-2 py-1 rounded transition
+     ${
+       isActive
+         ? "text-white bg-[#006666] font-semibold"
+         : "text-gray-700 hover:bg-[#004c4c] hover:text-white"
+     }`;
 
-      {/* Admin-only links */}
-      {userRole === "admin" && (
-        <>
-          <Link to="/dashboard/users">All Users Page</Link>
-          <Link to="/dashboard/articles">All Articles Page</Link>
-          <Link to="/dashboard/add-publisher">Add Publisher Page</Link>
-        </>
-      )}
+  return (
+    <div className="flex flex-col h-full justify-between">
+      {/* top section */}
+      <div className="flex flex-col space-y-4">
+        <NavLink to="/" className={linkClasses}>
+          <MdHome className="text-lg" />
+          Home Page
+        </NavLink>
+
+        <NavLink to="/dashboard" end className={linkClasses}>
+          <MdDashboard className="text-lg" />
+          Dashboard Home
+        </NavLink>
+
+        <NavLink to="/dashboard/profile" className={linkClasses}>
+          <FaUserCircle className="text-lg" />
+          Profile
+        </NavLink>
+
+        {userRole === "admin" && (
+          <>
+            <NavLink to="/dashboard/users" className={linkClasses}>
+              <FaUsers className="text-lg" />
+              All Users Page
+            </NavLink>
+
+            <NavLink to="/dashboard/articles" className={linkClasses}>
+              <FaNewspaper className="text-lg" />
+              All Articles Page
+            </NavLink>
+
+            <NavLink to="/dashboard/add-publisher" className={linkClasses}>
+              <FaPlusCircle className="text-lg" />
+              Add Publisher Page
+            </NavLink>
+          </>
+        )}
+      </div>
+
+      {/* bottom section – Home Page */}
+      <div className="mt-6">
+        <NavLink to="/" className={linkClasses}>
+          <FaArrowLeft className="text-lg" />
+          Home Page
+        </NavLink>
+      </div>
     </div>
   );
 };

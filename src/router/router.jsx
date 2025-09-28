@@ -12,6 +12,7 @@ import AllUsers from "../pages/Dashboard/AllUsers";
 import AllArticles from "../pages/Dashboard/AllArticles";
 import AddArticle from "../pages/AddArticle";
 import AddPublisher from "../pages/Dashboard/AddPublisher";
+import Profile from "../pages/Dashboard/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -72,6 +73,10 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Dashboard /> },
+      {
+        path: "/dashboard/profile",
+        element: <Profile></Profile>,
+      },
       {
         path: "/dashboard/users",
         element: <AllUsers></AllUsers>,
