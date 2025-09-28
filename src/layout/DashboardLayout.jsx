@@ -2,7 +2,6 @@ import { Outlet } from "react-router";
 import DashboardSidebar from "../components/DashboardSidebar";
 import { useEffect, useState } from "react";
 import useAuth from "../hooks/useAuth";
-import Dashboard from "../pages/Dashboard/DashBoard";
 
 const DashboardLayout = () => {
   const { user } = useAuth();

@@ -26,18 +26,18 @@ const DashboardSidebar = ({ userRole }) => {
           Home Page
         </NavLink>
 
-        <NavLink to="/dashboard" end className={linkClasses}>
-          <MdDashboard className="text-lg" />
-          Dashboard Home
-        </NavLink>
-
-        <NavLink to="/dashboard/profile" className={linkClasses}>
-          <FaUserCircle className="text-lg" />
-          Profile
-        </NavLink>
-
         {userRole === "admin" && (
           <>
+            <NavLink to="/dashboard/profile" className={linkClasses}>
+              <FaUserCircle className="text-lg" />
+              Profile
+            </NavLink>
+
+            <NavLink to="/dashboard" end className={linkClasses}>
+              <MdDashboard className="text-lg" />
+              Overview
+            </NavLink>
+
             <NavLink to="/dashboard/users" className={linkClasses}>
               <FaUsers className="text-lg" />
               All Users Page
@@ -51,6 +51,15 @@ const DashboardSidebar = ({ userRole }) => {
             <NavLink to="/dashboard/add-publisher" className={linkClasses}>
               <FaPlusCircle className="text-lg" />
               Add Publisher Page
+            </NavLink>
+          </>
+        )}
+
+        {userRole === "user" && (
+          <>
+            <NavLink to="/dashboard/profile" className={linkClasses}>
+              <FaUserCircle className="text-lg" />
+              Profile
             </NavLink>
           </>
         )}
