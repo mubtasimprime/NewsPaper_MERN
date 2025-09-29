@@ -70,6 +70,7 @@ const Register = () => {
         role: "user",
         createdAt: now,
         lastLoggedIn: now,
+        premiumTaken: null,
       };
 
       await axios.post(`${import.meta.env.VITE_API_URL}/add-user`, newUser);
