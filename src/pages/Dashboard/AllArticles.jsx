@@ -28,7 +28,6 @@ const AllArticles = () => {
     fetchArticles();
   }, []);
 
-  // === ACTIONS ===
   const approveArticle = async (id) => {
     await axios.patch(`${import.meta.env.VITE_API_URL}/articles/${id}/approve`);
     toast.success("Article approved");
@@ -124,10 +123,10 @@ const AllArticles = () => {
                   </td>
                   <td>{a.publisher}</td>
                   <td>
-                    {a.isPremium ? (
-                      <span className="badge badge-info w-full">Premium</span>
+                    {a.isPremium && a.status === "approved" ? (
+                      <span className="badge badge-info">Premium</span>
                     ) : (
-                      <span className="badge bg-red-400 w-full">No</span>
+                      <span className="text-gray-400">—</span>
                     )}
                   </td>
                   <td className="space-x-2">

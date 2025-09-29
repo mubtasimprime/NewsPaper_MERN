@@ -63,7 +63,7 @@ const AddArticle = () => {
       status: "pending",
       createdAt: new Date(),
       // declineReason: "",
-      isPremium: "no",
+      isPremium: false,
       author: {
         name: user.displayName,
         email: user.email,
