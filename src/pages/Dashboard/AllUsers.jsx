@@ -71,7 +71,7 @@ const AllUsers = () => {
                   <div className="avatar">
                     <div className="w-10 rounded-full">
                       <img
-                        src={user.photoURL || "/default-avatar.png"}
+                        src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
                         alt={user.name}
                       />
                     </div>

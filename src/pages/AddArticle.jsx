@@ -3,12 +3,15 @@ import { useForm, Controller } from "react-hook-form";
 import Select from "react-select";
 import axios from "axios";
 import { toast } from "react-toastify";
+import useAuth from "../hooks/useAuth";
 
 const AddArticle = () => {
   const { register, handleSubmit, control, reset } = useForm();
   const [publishers, setPublishers] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+
+  const { user } = useAuth();
 
   // Static tags
   const tagOptions = [
@@ -59,6 +62,13 @@ const AddArticle = () => {
       description: data.description,
       status: "pending",
       createdAt: new Date(),
+      // declineReason: "",
+      isPremium: "no",
+      author: {
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      },
     };
 
     try {
