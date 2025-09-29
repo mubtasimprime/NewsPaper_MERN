@@ -12,7 +12,7 @@ export default function Payment() {
 
   const handlePayNow = async () => {
     try {
-      await axios.post("http://localhost:5000/subscriptions", {
+      await axios.post(`${import.meta.env.VITE_API_URL}/subscriptions`, {
         email: user.email,
         period,
         price,

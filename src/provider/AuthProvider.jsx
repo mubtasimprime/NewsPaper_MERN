@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.init";
+import axios from "axios";
 
 const googleProvider = new GoogleAuthProvider();
 
@@ -45,16 +46,28 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        setUser(currentUser);
+        try {
+          // fetch user from backend
+          const { data } = await axios.get(
+            `${import.meta.env.VITE_API_URL}/get-user`,
+            { params: { email: currentUser.email } }
+          );
+          setUser(data);
+        } catch (err) {
+          console.error("Failed to fetch user:", err);
+          setUser(currentUser);
+        }
+      } else {
+        setUser(null);
       }
       setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
- 
+
   const authInfo = {
     user,
     setUser,

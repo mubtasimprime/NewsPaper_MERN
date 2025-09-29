@@ -12,6 +12,25 @@ import { auth } from "../../firebase/firebase.init";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
+  const [role, setRole] = useState(null);
+
+  useEffect(() => {
+    if (!user?.email) return;
+
+    const fetchRole = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_API_URL}/user-role?email=${user.email}`
+        );
+        const data = await res.json();
+        setRole(data.role);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchRole();
+  }, [user]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -91,6 +110,21 @@ const Navbar = () => {
       <li>
         <NavLink
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+          to="/profile"
+          className={({ isActive }) =>
+            isActive
+              ? "text-4 font-semibold flex items-center gap-1"
+              : "hover:scale-105 flex items-center gap-1"
+          }
+        >
+          <PiArticleMediumFill />
+          My Profile
+        </NavLink>
+      </li>
+
+      <li>
+        <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/my-articles"
           className={({ isActive }) =>
             isActive
@@ -145,7 +179,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-center hidden lg:flex">
-        <ul className="flex gap-6 items-center justify-center text-lg font-medium text-4">
+        <ul className="flex gap-8 items-center justify-center text-lg font-medium text-4">
           {navItems}
         </ul>
       </div>
@@ -174,7 +208,7 @@ const Navbar = () => {
               role="button"
               className="btn btn-ghost btn-circle avatar"
             >
-              <div className="w-10 rounded-full border">
+              <div className="w-10 rounded-full border border-green-300">
                 <img alt="User Avatar" src={user.photoURL || null} />
               </div>
             </div>
@@ -184,9 +218,13 @@ const Navbar = () => {
                   {user.displayName || "User"}
                 </span>
               </li>
-              <li>
-                <Link to="/dashboard/profile">Dashboard</Link>
-              </li>
+
+              {role !== "user" && (
+                <li>
+                  <Link to="/dashboard">Dashboard</Link>
+                </li>
+              )}
+
               <li>
                 <button onClick={handleLogout}>Logout</button>
               </li>

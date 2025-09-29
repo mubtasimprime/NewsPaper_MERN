@@ -28,10 +28,10 @@ const DashboardSidebar = ({ userRole }) => {
 
         {userRole === "admin" && (
           <>
-            <NavLink to="/dashboard/profile" className={linkClasses}>
+            {/* <NavLink to="/dashboard/profile" className={linkClasses}>
               <FaUserCircle className="text-lg" />
               Profile
-            </NavLink>
+            </NavLink> */}
 
             <NavLink to="/dashboard" end className={linkClasses}>
               <MdDashboard className="text-lg" />

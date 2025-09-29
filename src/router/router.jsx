@@ -12,7 +12,7 @@ import AllUsers from "../pages/Dashboard/AllUsers";
 import AllArticles from "../pages/Dashboard/AllArticles";
 import AddArticle from "../pages/AddArticle";
 import AddPublisher from "../pages/Dashboard/AddPublisher";
-import Profile from "../pages/Dashboard/Profile";
+import Profile from "../pages/Profile";
 import Subscription from "../pages/Subscription";
 import Payment from "../pages/Payment";
 
@@ -60,6 +60,14 @@ export const router = createBrowserRouter([
         path: "/premium-article",
         element: <PrivateRoute></PrivateRoute>,
       },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
+      },
     ],
   },
 
@@ -84,11 +92,6 @@ export const router = createBrowserRouter([
     ),
     children: [
       { index: true, element: <Dashboard /> },
-      {
-        path: "/dashboard/profile",
-        element: <Profile></Profile>,
-      },
-
       {
         path: "/dashboard/users",
         element: <AllUsers></AllUsers>,
