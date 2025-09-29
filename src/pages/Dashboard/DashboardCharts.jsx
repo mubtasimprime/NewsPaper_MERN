@@ -1,15 +1,46 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Chart } from "react-google-charts";
 
 const DashboardCharts = () => {
-  // Fake article counts per publisher (dynamic data example)
+  const [publicationData, setPublicationData] = useState([]);
 
-  const publicationData = [
-    { name: "Publication A", articles: 2 },
-    { name: "Publication B", articles: 3 },
-    { name: "Publication C", articles: 5 },
+  const publishers = [
+    "Prothom Alo",
+    "Kaler Kontho",
+    "Bangladesh Protidin",
+    "Doinik Ittefaq",
+    "Naya Digonto",
+    "The Times",
+    "The Sun",
+    "The Daily Star",
   ];
 
-  // Build data array for Google Pie Chart
+  useEffect(() => {
+    const fetchArticles = async () => {
+      try {
+        const res = await axios.get(
+          `${import.meta.env.VITE_API_URL}/public-articles`
+        );
+        const approvedArticles = res.data.filter(
+          (a) => a.status === "approved"
+        );
+
+        // Count articles per publisher
+        const counts = publishers.map((pub) => ({
+          name: pub,
+          articles: approvedArticles.filter((a) => a.publisher === pub).length,
+        }));
+
+        setPublicationData(counts);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
   const pieData = [
     ["Publication", "Articles"],
     ...publicationData.map((p) => [p.name, p.articles]),
@@ -23,24 +54,18 @@ const DashboardCharts = () => {
     chartArea: { width: "80%", height: "75%" },
   };
 
-  // ------------------------
-  // Static Bar Chart Data
-  // ------------------------
   const barData = [
-    ["Month", "Visitors"],
-    ["Jan", 800],
-    ["Feb", 600],
-    ["Mar", 1000],
-    ["Apr", 700],
-    ["May", 1200],
+    ["Publisher", "Articles"],
+    ...publicationData.map((p) => [p.name, p.articles]),
   ];
 
   const barOptions = {
-    title: "Monthly Visitors (Static Example)",
-    hAxis: { title: "Month" },
-    vAxis: { title: "Visitors" },
+    title: "Articles by Publisher",
+    hAxis: { title: "Publisher" },
+    vAxis: { title: "Articles" },
     legend: "none",
     colors: ["#34a853"],
+    chartArea: { width: "70%", height: "70%" },
   };
 
   return (
