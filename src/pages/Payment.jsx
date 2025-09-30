@@ -2,13 +2,17 @@ import { useLocation, useNavigate } from "react-router";
 import Swal from "sweetalert2";
 import useAuth from "../hooks/useAuth";
 import axios from "axios";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function Payment() {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const location = useLocation();
   const { user } = useAuth();
 
   const { period, price } = location.state || {};
+
+  if (!period || !price) return null;
 
   const handlePayNow = async () => {
     try {
@@ -20,20 +24,19 @@ export default function Payment() {
 
       Swal.fire({
         title: "Payment successful!",
-        icon: `Payment successful!\nPlan: ${period}\nPrice: $${price}`,
-        draggable: true,
+        html: `Plan: <b>${period}</b><br/>Price: <b>$${price}</b>`,
+        icon: "success",
         timer: 1500,
         showConfirmButton: false,
       });
 
-      navigate("/");
+      queryClient.invalidateQueries(["users"]);
+      navigate("/premium-article");
     } catch (err) {
       console.error(err);
       Swal.fire("Error", "Payment failed. Try again.", "error");
     }
   };
-
-  if (!period || !price) return null;
 
   return (
     <div className="min-h-[calc(100vh-64px)] flex items-center justify-center bg-[#b2d8d8]">

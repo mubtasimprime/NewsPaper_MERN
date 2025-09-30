@@ -1,15 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios from "axios";
-import useAuth from "../hooks/useAuth";
-import { toast } from "react-toastify";
 
 export default function Subscription() {
   const navigate = useNavigate();
   const [period, setPeriod] = useState("");
-  const { user } = useAuth();
-  const queryClient = useQueryClient();
 
   const prices = {
     "1 minute": 1,
@@ -17,25 +11,11 @@ export default function Subscription() {
     "10 days": 35,
   };
 
-  const subscribeMutation = useMutation({
-    mutationFn: async (data) => {
-      const res = await axios.post(
-        `${import.meta.env.VITE_API_URL}/subscriptions`,
-        data
-      );
-      return res.data;
-    },
-    onSuccess: () => {
-      toast.success("Subscription activated!");
-      queryClient.invalidateQueries(["subscription", user?.email]);
-      navigate("/premium-article");
-    },
-    onError: () => toast.error("Something went wrong!"),
-  });
-
-  const handleSubscribe = () => {
-    if (!period || !user?.email) return;
-    subscribeMutation.mutate({ email: user.email, period });
+  const handlePay = () => {
+    if (!period) return;
+    navigate("/subscription/payment", {
+      state: { period, price: prices[period] },
+    });
   };
 
   return (
@@ -76,15 +56,11 @@ export default function Subscription() {
 
           {/* Pay Button */}
           <button
-            onClick={handleSubscribe}
-            disabled={subscribeMutation.isLoading}
+            onClick={handlePay}
+            disabled={!period}
             className="w-full bg-gradient-to-r from-cyan-500 to-green-500 hover:from-cyan-600 hover:to-green-600 text-white font-semibold py-3 rounded-lg transition-transform duration-200 hover:scale-105 shadow-md disabled:opacity-60"
           >
-            {period
-              ? subscribeMutation.isLoading
-                ? "Processing..."
-                : `Pay $${prices[period]}`
-              : "Pay"}
+            {period ? `Pay $${prices[period]}` : "Pay"}
           </button>
         </div>
       </div>
