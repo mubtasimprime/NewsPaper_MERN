@@ -15,6 +15,8 @@ import AddPublisher from "../pages/Dashboard/AddPublisher";
 import Profile from "../pages/Profile";
 import Subscription from "../pages/Subscription";
 import Payment from "../pages/Payment";
+import AllArticlesPublic from "../pages/AllArticlesPublic";
+import ArticleDetails from "../pages/ArticleDetails";
 
 export const router = createBrowserRouter([
   {
@@ -33,11 +35,15 @@ export const router = createBrowserRouter([
       },
       {
         path: "/all-articles",
-        element: <h1>Hello All Articles</h1>,
+        element: <AllArticlesPublic></AllArticlesPublic>,
       },
       {
-        path: "article-details",
-        element: <PrivateRoute></PrivateRoute>,
+        path: "/article-details/:id",
+        element: (
+          <PrivateRoute>
+            <ArticleDetails></ArticleDetails>
+          </PrivateRoute>
+        ),
       },
 
       {
