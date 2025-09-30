@@ -5,6 +5,7 @@ import HomeContact from "../components/Home/HomeContact";
 import HomePublisher from "../components/Home/HomePublisher";
 import HomeStatistic from "../components/Home/HomeStatistic";
 import HomePlans from "../components/Home/HomePlans";
+import FAQ from "../components/Home/FAQ";
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       <HomeFeature></HomeFeature>
       <HomeStatistic></HomeStatistic>
       <HomePlans></HomePlans>
+      <FAQ></FAQ>
       <HomeContact></HomeContact>
     </>
   );

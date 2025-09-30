@@ -32,7 +32,7 @@ const features = [
 
 const HomeFeature = () => {
   return (
-    <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
+    <section className="bg-gray-100 py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-9/12 mx-auto text-center">
         <h2 className="text-[38px] leading-12 lg:text-[40px] font-extrabold mb-4">
           Why Choose Prime<span className="text-3">News?</span>
