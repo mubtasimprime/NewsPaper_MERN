@@ -72,7 +72,7 @@ export const router = createBrowserRouter([
         ),
       },
       {
-        path: "/my-article",
+        path: "/my-articles",
         element: <PrivateRoute></PrivateRoute>,
       },
       {

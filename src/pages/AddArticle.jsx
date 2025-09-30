@@ -20,10 +20,15 @@ const AddArticle = () => {
     { value: "tech", label: "Tech" },
     { value: "business", label: "Business" },
     { value: "environment", label: "Environment" },
+    { value: "education", label: "Education" },
+    { value: "innovation", label: "Innovation" },
     { value: "energy", label: "Energy" },
     { value: "transport", label: "Transport" },
     { value: "health", label: "Health" },
     { value: "agriculture", label: "Agriculture" },
+    { value: "weather", label: "Weather" },
+    { value: "culture", label: "Culture" },
+    { value: "art", label: "Art" },
   ];
 
   useEffect(() => {

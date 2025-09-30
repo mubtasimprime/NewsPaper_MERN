@@ -11,6 +11,7 @@ import { PiArticleMediumFill } from "react-icons/pi";
 import { auth } from "../../firebase/firebase.init";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { GrArticle } from "react-icons/gr";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -61,17 +62,32 @@ const Navbar = () => {
   const navItems = (
     <>
       <li>
-        <NavLink to="/" className="flex items-center gap-1">
+        <NavLink
+          to="/"
+          className={({ isActive }) =>
+            `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
+          }
+        >
           <FaHome size={20} /> Home
         </NavLink>
       </li>
       <li>
-        <NavLink to="/add-article" className="flex items-center gap-1">
+        <NavLink
+          to="/add-article"
+          className={({ isActive }) =>
+            `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
+          }
+        >
           <RiArticleFill /> Add Articles
         </NavLink>
       </li>
       <li>
-        <NavLink to="/all-articles" className="flex items-center gap-1">
+        <NavLink
+          to="/all-articles"
+          className={({ isActive }) =>
+            `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
+          }
+        >
           <PiArticleFill /> All Articles
         </NavLink>
       </li>
@@ -80,7 +96,13 @@ const Navbar = () => {
         <li>
           <NavLink
             to="/premium-article"
-            className="flex items-center gap-1 text-yellow-600 font-semibold"
+            className={({ isActive }) =>
+              `flex items-center gap-1 ${
+                isActive
+                  ? "text-yellow-600 font-bold"
+                  : "text-yellow-600 font-semibold"
+              }`
+            }
           >
             ⭐ Premium
           </NavLink>
@@ -88,18 +110,35 @@ const Navbar = () => {
       )}
 
       <li>
-        <NavLink to="/subscription" className="flex items-center gap-1">
+        <NavLink
+          to="/subscription"
+          className={({ isActive }) =>
+            `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
+          }
+        >
           <MdSubscriptions /> Subscription
         </NavLink>
       </li>
       <li>
-        <NavLink to="/profile" className="flex items-center gap-1">
-          <PiArticleMediumFill /> My Profile
+        <NavLink
+          to="/profile"
+          className={({ isActive }) =>
+            `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
+          }
+        >
+          <PiArticleMediumFill />
+          Profile
         </NavLink>
       </li>
       <li>
-        <NavLink to="/my-articles" className="flex items-center gap-1">
-          <PiArticleMediumFill /> My Articles
+        <NavLink
+          to="/my-articles"
+          className={({ isActive }) =>
+            `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
+          }
+        >
+          <GrArticle />
+          Articles
         </NavLink>
       </li>
     </>
@@ -144,7 +183,7 @@ const Navbar = () => {
       </div>
 
       <div className="navbar-center hidden lg:flex">
-        <ul className="flex gap-8 items-center justify-center text-lg font-medium text-4">
+        <ul className="flex gap-8 items-center justify-center text-lg font-medium">
           {navItems}
         </ul>
       </div>
