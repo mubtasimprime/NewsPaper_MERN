@@ -12,6 +12,7 @@ import { auth } from "../../firebase/firebase.init";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { GrArticle } from "react-icons/gr";
+import { MdDashboard } from "react-icons/md";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
@@ -121,17 +122,6 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          to="/profile"
-          className={({ isActive }) =>
-            `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
-          }
-        >
-          <PiArticleMediumFill />
-          Profile
-        </NavLink>
-      </li>
-      <li>
-        <NavLink
           to="/my-articles"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -141,8 +131,23 @@ const Navbar = () => {
           Articles
         </NavLink>
       </li>
+
+      {/* Show Dashboard in navbar only if admin */}
+      {role === "admin" && (
+        <li>
+          <NavLink
+            to="/dashboard"
+            className={({ isActive }) =>
+              `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
+            }
+          >
+            <MdDashboard /> Dashboard
+          </NavLink>
+        </li>
+      )}
     </>
   );
+
   return (
     <div className="navbar max-w-9/12 mx-auto">
       <div className="navbar-start">
@@ -223,11 +228,11 @@ const Navbar = () => {
                 </span>
               </li>
 
-              {role !== "user" && (
-                <li>
-                  <Link to="/dashboard">Dashboard</Link>
-                </li>
-              )}
+              {/* Only show dashboard if user is admin */}
+
+              <li>
+                <Link to="/profile">Profile</Link>
+              </li>
 
               <li>
                 <button onClick={handleLogout}>Logout</button>
