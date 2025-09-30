@@ -19,6 +19,11 @@ const AddArticle = () => {
     { value: "sports", label: "Sports" },
     { value: "tech", label: "Tech" },
     { value: "business", label: "Business" },
+    { value: "environment", label: "Environment" },
+    { value: "energy", label: "Energy" },
+    { value: "transport", label: "Transport" },
+    { value: "health", label: "Health" },
+    { value: "agriculture", label: "Agriculture" },
   ];
 
   useEffect(() => {
@@ -65,9 +70,9 @@ const AddArticle = () => {
       // declineReason: "",
       isPremium: false,
       author: {
-        name: user.displayName,
+        name: user.name,
         email: user.email,
-        photo: user.photoURL,
+        photo: user.photo || user.photoURL,
       },
     };
 

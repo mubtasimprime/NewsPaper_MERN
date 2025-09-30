@@ -9,7 +9,7 @@ import axios from "axios";
 import useGoogleAuth from "../../hooks/useGoogleAuth";
 
 const Register = () => {
-  const { signUpWithEmail, updateUser } = useAuth();
+  const { signUpWithEmail, updateUser, setUser } = useAuth();
   const handleGoogleAuth = useGoogleAuth();
 
   const navigate = useNavigate();
@@ -72,9 +72,8 @@ const Register = () => {
         lastLoggedIn: now,
         premiumTaken: null,
       };
-
       await axios.post(`${import.meta.env.VITE_API_URL}/add-user`, newUser);
-
+      setUser(newUser);
       toast.success("Registration successful");
       navigate(from);
     } catch (error) {
