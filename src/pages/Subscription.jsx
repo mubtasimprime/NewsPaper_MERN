@@ -27,10 +27,10 @@ export default function Subscription() {
           backgroundImage: "url('https://i.ibb.co.com/Qjm1H5T4/sub.jpg')",
         }}
       >
-        <div className="h-full w-full bg-black/30"></div>
+        <div className="h-full w-full bg-black/10"></div>
       </div>
 
-      <div className="flex-grow flex justify-center items-center py-12 bg-gradient-to-b from-gray-50 to-gray-100">
+      <div className="flex-grow flex justify-center items-center py-12 bg-gradient-to-b from-gray-100 to-gray-200">
         <div className="backdrop-blur-md bg-white/70 shadow-xl rounded-2xl p-8 w-full max-w-md border border-gray-200">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
             Choose Your Plan

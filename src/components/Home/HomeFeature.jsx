@@ -1,31 +1,32 @@
 import {
-  FaUserCheck,
+  FaRegNewspaper,
   FaBell,
-  FaUserPlus,
-  FaMapMarkedAlt,
+  FaUserFriends,
+  FaGlobeAmericas,
 } from "react-icons/fa";
 
 const features = [
   {
-    icon: <FaUserCheck className="text-3xl text-[#B32346]" />,
-    title: "Verified Donors",
+    icon: <FaRegNewspaper size={50} className="text-3xl text-[#66b2b2]" />,
+    title: "Trusted News",
     description:
-      "All donors are verified and regularly updated for safety and trust.",
+      "Access reliable and fact-checked news from credible sources worldwide.",
   },
   {
-    icon: <FaBell className="text-3xl text-[#B32346]" />,
-    title: "Urgent Request Alerts",
-    description: "Get real-time alerts for urgent blood requirements near you.",
+    icon: <FaBell size={50} className="text-3xl text-[#66b2b2]" />,
+    title: "Instant Alerts",
+    description: "Stay informed with real-time notifications on breaking news.",
   },
   {
-    icon: <FaUserPlus className="text-3xl text-[#B32346]" />,
-    title: "Easy Registration",
-    description: "Quick and simple process to become a blood donor in minutes.",
+    icon: <FaUserFriends size={50} className="text-3xl text-[#66b2b2]" />,
+    title: "Personalized Feed",
+    description: "Get a tailored news experience based on your interests.",
   },
   {
-    icon: <FaMapMarkedAlt className="text-3xl text-[#B32346]" />,
-    title: "Location-Based Matching",
-    description: "Connect with donors and recipients based on your location.",
+    icon: <FaGlobeAmericas size={50} className="text-3xl text-[#66b2b2]" />,
+    title: "Global Coverage",
+    description:
+      "Explore stories from around the world with diverse perspectives.",
   },
 ];
 
@@ -33,19 +34,19 @@ const HomeFeature = () => {
   return (
     <section className="bg-white py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-9/12 mx-auto text-center">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6">
-          Why Choose DonateBlood?
+        <h2 className="text-[38px] leading-12 lg:text-[40px] font-extrabold mb-4">
+          Why Choose Prime<span className="text-3">News?</span>
         </h2>
-        <p className="text-gray-500 max-w-2xl mx-auto mb-12">
-          Our platform ensures fast, safe, and reliable blood donation and
-          request management.
+        <p className="text-gray-700 max-w-[600px] mx-auto mb-8">
+          PrimeNews brings you fast, accurate, and personalized news updates so
+          you never miss what matters most.
         </p>
 
         <div className="max-w-9/12 mx-auto md:max-w-full grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 border border-red-100"
+              className="p-6 lg:py-10 shadow-sm rounded-lg hover:scale-105 transition cursor-pointer border border-green-200"
             >
               <div className="flex items-center justify-center mb-4">
                 {feature.icon}

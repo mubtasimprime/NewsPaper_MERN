@@ -24,12 +24,17 @@ const HomePublisher = () => {
 
   return (
     <div className="max-w-9/12 mx-auto py-10">
-      <h2 className="text-2xl font-bold mb-6 text-center">All Publishers</h2>
+      <h2 className="text-[38px] leading-12 lg:text-[40px] font-extrabold mb-4 text-center">
+        All Publishers
+      </h2>
+      <p className="text-gray-700 max-w-[600px] mx-auto mb-8 text-center">
+        Discover news from trusted publishers and diverse voices worldwide.
+      </p>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
         {publishers.map((publisher) => (
           <div
             key={publisher._id}
-            className="flex flex-col items-center bg-white p-4 rounded-lg shadow hover:scale-105 transition cursor-pointer border border-green-300"
+            className="flex flex-col items-center bg-white p-4 rounded-lg shadow hover:scale-105 transition cursor-pointer border border-green-200"
           >
             <img
               src={publisher.logo}
