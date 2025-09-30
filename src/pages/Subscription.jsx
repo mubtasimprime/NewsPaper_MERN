@@ -6,7 +6,8 @@ export default function Subscription() {
   const [period, setPeriod] = useState("");
 
   const prices = {
-    "1 minute": 1,
+    "1 minute": "FREE",
+    "2 minute": 5,
     "5 days": 20,
     "10 days": 35,
   };
@@ -50,6 +51,7 @@ export default function Subscription() {
           >
             <option value="">Select Period</option>
             <option>1 minute</option>
+            <option>2 minute</option>
             <option>5 days</option>
             <option>10 days</option>
           </select>

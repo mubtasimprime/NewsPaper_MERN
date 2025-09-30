@@ -17,7 +17,7 @@ const HomeStatistic = () => {
   } = useQuery({
     queryKey: ["users"],
     queryFn: fetchUsers,
-    staleTime: 1000 * 60 * 5,
+    staleTime: 0,
   });
 
   if (isLoading) return <Loading></Loading>;
