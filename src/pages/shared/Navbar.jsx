@@ -9,34 +9,45 @@ import { PiArticleFill } from "react-icons/pi";
 import { MdSubscriptions } from "react-icons/md";
 import { PiArticleMediumFill } from "react-icons/pi";
 import { auth } from "../../firebase/firebase.init";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
 
+  const { data: roleData } = useQuery({
+    queryKey: ["role", user?.email],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/user-role?email=${user.email}`
+      );
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
+
   useEffect(() => {
-    if (!user?.email) return;
+    if (roleData) setRole(roleData.role);
+  }, [roleData]);
 
-    const fetchRole = async () => {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_API_URL}/user-role?email=${user.email}`
-        );
-        const data = await res.json();
-        setRole(data.role);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+  const { data: subscription } = useQuery({
+    queryKey: ["subscription", user?.email],
+    queryFn: async () => {
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_URL}/subscriptions/${user.email}`
+      );
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
 
-    fetchRole();
-  }, [user]);
+  const isPremium = subscription?.premium || false;
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
     });
-
     return () => unsubscribe();
   }, []);
 
@@ -50,95 +61,49 @@ const Navbar = () => {
   const navItems = (
     <>
       <li>
-        <NavLink
-          to="/"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          className={({ isActive }) =>
-            isActive
-              ? "text-4 font-semibold flex items-center gap-1"
-              : "hover:scale-105 flex items-center gap-1"
-          }
-        >
-          <FaHome size={20} />
-          Home
+        <NavLink to="/" className="flex items-center gap-1">
+          <FaHome size={20} /> Home
         </NavLink>
       </li>
       <li>
-        <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          to="/add-article"
-          className={({ isActive }) =>
-            isActive
-              ? "text-4 font-semibold flex items-center gap-1"
-              : "hover:scale-105 flex items-center gap-1"
-          }
-        >
-          <RiArticleFill />
-          Add Articles
+        <NavLink to="/add-article" className="flex items-center gap-1">
+          <RiArticleFill /> Add Articles
         </NavLink>
       </li>
       <li>
-        <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          to="/all-articles"
-          className={({ isActive }) =>
-            isActive
-              ? "text-4 font-semibold flex items-center gap-1"
-              : "hover:scale-105 flex items-center gap-1"
-          }
-        >
-          <PiArticleFill />
-          All Articles
+        <NavLink to="/all-articles" className="flex items-center gap-1">
+          <PiArticleFill /> All Articles
         </NavLink>
       </li>
 
-      <li>
-        <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          to="/subscription"
-          className={({ isActive }) =>
-            isActive
-              ? "text-4 font-semibold flex items-center gap-1"
-              : "hover:scale-105 flex items-center gap-1"
-          }
-        >
-          <MdSubscriptions />
-          Subscription
-        </NavLink>
-      </li>
+      {isPremium && (
+        <li>
+          <NavLink
+            to="/premium-article"
+            className="flex items-center gap-1 text-yellow-600 font-semibold"
+          >
+            ⭐ Premium
+          </NavLink>
+        </li>
+      )}
 
       <li>
-        <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          to="/profile"
-          className={({ isActive }) =>
-            isActive
-              ? "text-4 font-semibold flex items-center gap-1"
-              : "hover:scale-105 flex items-center gap-1"
-          }
-        >
-          <PiArticleMediumFill />
-          My Profile
+        <NavLink to="/subscription" className="flex items-center gap-1">
+          <MdSubscriptions /> Subscription
         </NavLink>
       </li>
-
       <li>
-        <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          to="/my-articles"
-          className={({ isActive }) =>
-            isActive
-              ? "text-4 font-semibold flex items-center gap-1"
-              : "hover:scale-105 flex items-center gap-1"
-          }
-        >
-          <PiArticleMediumFill />
-          My Articles
+        <NavLink to="/profile" className="flex items-center gap-1">
+          <PiArticleMediumFill /> My Profile
+        </NavLink>
+      </li>
+      <li>
+        <NavLink to="/my-articles" className="flex items-center gap-1">
+          <PiArticleMediumFill /> My Articles
         </NavLink>
       </li>
     </>
   );
-
   return (
     <div className="navbar max-w-9/12 mx-auto">
       <div className="navbar-start">
