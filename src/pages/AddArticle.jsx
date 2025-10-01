@@ -93,7 +93,7 @@ const AddArticle = () => {
 
   return (
     <section className="bg-gray-100">
-      <div className="text-center py-10 max-w-3xl mx-auto px-4 max-w-9/12 mx-auto">
+      <div className="text-center py-10 px-4 max-w-9/12 mx-auto">
         <h1 className="text-3xl font-extrabold text-gray-800 mb-4">
           Share Your Voice with the World 🌍
         </h1>

@@ -211,16 +211,33 @@ const Navbar = () => {
             </Link>
           </div>
         ) : (
-          <div className="btn btn-ghost btn-circle avatar">
-            <Link to="/profile">
-              <div className="w-10 h-10 rounded-full border border-green-300 overflow-hidden">
-                <img
-                  alt="User Avatar"
-                  src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-                  className="w-full h-full object-cover"
-                />
+          <div className="dropdown dropdown-end">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full border border-green-300">
+                <img alt="User Avatar" src={user.photoURL || null} />
               </div>
-            </Link>
+            </div>
+            <ul className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-40">
+              <li className="text-center">
+                <span className="font-semibold text-sm">
+                  {user.displayName || "User"}
+                </span>
+              </li>
+
+              {/* Only show dashboard if user is admin */}
+
+              <li>
+                <Link to="/profile">Profile</Link>
+              </li>
+
+              <li>
+                <button onClick={handleLogout}>Logout</button>
+              </li>
+            </ul>
           </div>
         )}
       </div>
