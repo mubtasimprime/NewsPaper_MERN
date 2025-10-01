@@ -70,7 +70,7 @@ const MyArticles = () => {
       <h1 className="text-3xl font-extrabold text-gray-800 mb-4 text-center">
         My Articles
       </h1>
-      <p className="text-gray-600 text-lg max-w-4xl mx-auto mb-6">
+      <p className="text-gray-600 text-lg max-w-4xl mx-auto mb-6 text-center">
         Here you can view all the articles you have created, manage their
         status, and make updates or deletions as needed. Stay organized and keep
         track of which articles are approved, pending, or declined.

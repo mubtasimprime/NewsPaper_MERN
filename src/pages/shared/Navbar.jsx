@@ -64,6 +64,7 @@ const Navbar = () => {
     <>
       <li>
         <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -74,6 +75,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/add-article"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -84,6 +86,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/all-articles"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -96,6 +99,7 @@ const Navbar = () => {
       {isPremium && (
         <li>
           <NavLink
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             to="/premium-article"
             className={({ isActive }) =>
               `flex items-center gap-1 ${
@@ -112,6 +116,7 @@ const Navbar = () => {
 
       <li>
         <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/subscription"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -122,6 +127,7 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/my-articles"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -136,6 +142,7 @@ const Navbar = () => {
       {role === "admin" && (
         <li>
           <NavLink
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             to="/dashboard"
             className={({ isActive }) =>
               `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -198,12 +205,14 @@ const Navbar = () => {
         {!user ? (
           <div className="flex gap-3">
             <Link
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               to="/auth/login"
               className="bg-[#004c4c] hover:bg-[#006666] transition duration-300 text-white px-5 py-1 rounded-md"
             >
               SignIn
             </Link>
             <Link
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               to="/auth/register"
               className="bg-[#004c4c] hover:bg-[#006666] transition duration-300 text-white px-5 py-1 rounded-md"
             >
@@ -231,7 +240,14 @@ const Navbar = () => {
               {/* Only show dashboard if user is admin */}
 
               <li>
-                <Link to="/profile">Profile</Link>
+                <Link
+                  onClick={() =>
+                    window.scrollTo({ top: 0, behavior: "smooth" })
+                  }
+                  to="/profile"
+                >
+                  Profile
+                </Link>
               </li>
 
               <li>
