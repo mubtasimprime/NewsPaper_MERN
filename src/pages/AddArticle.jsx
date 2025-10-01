@@ -92,111 +92,128 @@ const AddArticle = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 py-10">
-      <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-8">
-        <h1 className="text-2xl font-bold mb-6 text-center">Add New Article</h1>
+    <section className="bg-gray-100">
+      <div className="text-center py-10 max-w-3xl mx-auto px-4 max-w-9/12 mx-auto">
+        <h1 className="text-3xl font-extrabold text-gray-800 mb-4">
+          Share Your Voice with the World 🌍
+        </h1>
+        <p className="text-gray-600 text-lg max-w-4xl mx-auto">
+          Write and publish your own articles on trending topics, share your
+          insights, and contribute to a growing community of readers. Fill in
+          the details below to submit your article for review.
+        </p>
+      </div>
 
-        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
-          {/* Title */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Title</label>
-            <input
-              {...register("title", { required: true })}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 outline-none"
-              placeholder="Enter article title"
-              required
-            />
-          </div>
+      <div className="flex items-center justify-center max-w-9/12 mx-auto pb-10">
+        <div className="w-full max-w-2xl bg-white rounded-2xl shadow-lg p-8">
+          <h1 className="text-2xl font-extrabold mb-6 text-center">
+            Add New Article
+          </h1>
 
-          {/* Image Upload */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Image</label>
-            <input
-              type="file"
-              accept="image/*"
-              onChange={handleImageUpload}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 cursor-pointer"
-              required
-            />
-            {uploading && (
-              <p className="text-teal-600 text-sm mt-1">Uploading image...</p>
-            )}
-            {imageUrl && (
-              <img
-                src={imageUrl}
-                alt="Preview"
-                className="mt-2 h-full w-full object-cover rounded-lg border"
+          <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            {/* Title */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Title</label>
+              <input
+                {...register("title", { required: true })}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 outline-none"
+                placeholder="Enter article title"
+                required
               />
-            )}
-          </div>
+            </div>
 
-          {/* Publisher Dropdown */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Publisher</label>
-            <select
-              {...register("publisher", { required: true })}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 outline-none"
-              required
-            >
-              <option value="">Select publisher</option>
-              {publishers.map((p) => (
-                <option key={p._id} value={p.name}>
-                  {p.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Tags Multi Select */}
-          <div>
-            <label className="block text-sm font-medium mb-1">Tags</label>
-            <Controller
-              name="tags"
-              control={control}
-              rules={{ required: true }}
-              render={({ field }) => (
-                <Select
-                  isMulti
-                  options={tagOptions}
-                  className="react-select-container"
-                  required
-                  classNamePrefix="react-select"
-                  value={tagOptions.filter((option) =>
-                    field.value?.includes(option.value)
-                  )}
-                  onChange={(val) =>
-                    field.onChange(val.map((item) => item.value))
-                  }
+            {/* Image Upload */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Image</label>
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 cursor-pointer"
+                required
+              />
+              {uploading && (
+                <p className="text-teal-600 text-sm mt-1">Uploading image...</p>
+              )}
+              {imageUrl && (
+                <img
+                  src={imageUrl}
+                  alt="Preview"
+                  className="mt-2 h-full w-full object-cover rounded-lg border"
                 />
               )}
-            />
-          </div>
+            </div>
 
-          {/* Description */}
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Description
-            </label>
-            <textarea
-              {...register("description", { required: true })}
-              rows={5}
-              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 outline-none"
-              placeholder="Write article details..."
-              required
-            />
-          </div>
+            {/* Publisher Dropdown */}
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Publisher
+              </label>
+              <select
+                {...register("publisher", { required: true })}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 outline-none"
+                required
+              >
+                <option value="">Select publisher</option>
+                {publishers.map((p) => (
+                  <option key={p._id} value={p.name}>
+                    {p.name}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-          {/* Submit Button */}
-          <button
-            type="submit"
-            disabled={!imageUrl || uploading}
-            className="w-full bg-teal-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-teal-700 transition disabled:opacity-60"
-          >
-            Submit Article
-          </button>
-        </form>
+            {/* Tags Multi Select */}
+            <div>
+              <label className="block text-sm font-medium mb-1">Tags</label>
+              <Controller
+                name="tags"
+                control={control}
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Select
+                    isMulti
+                    options={tagOptions}
+                    className="react-select-container"
+                    required
+                    classNamePrefix="react-select"
+                    value={tagOptions.filter((option) =>
+                      field.value?.includes(option.value)
+                    )}
+                    onChange={(val) =>
+                      field.onChange(val.map((item) => item.value))
+                    }
+                  />
+                )}
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Description
+              </label>
+              <textarea
+                {...register("description", { required: true })}
+                rows={5}
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-teal-500 outline-none"
+                placeholder="Write article details..."
+                required
+              />
+            </div>
+
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={!imageUrl || uploading}
+              className="w-full bg-teal-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-teal-700 transition disabled:opacity-60"
+            >
+              Submit Article
+            </button>
+          </form>
+        </div>
       </div>
-    </div>
+    </section>
   );
 };
 
