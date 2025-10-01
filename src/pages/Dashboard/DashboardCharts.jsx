@@ -69,7 +69,7 @@ const DashboardCharts = () => {
   };
 
   return (
-    <div className="grid md:grid-cols-1 gap-6 p-6">
+    <div className="grid md:grid-cols-1 gap-6 pt-18 p-6">
       {/* Pie Chart */}
       <div className="bg-[#b2d8d8] rounded-xl shadow p-4">
         <Chart

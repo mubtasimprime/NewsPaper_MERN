@@ -49,7 +49,7 @@ const AddPublisher = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-5 bg-white shadow-md rounded mt-10">
+    <div className="max-w-md mx-auto mt-20 p-5 bg-white shadow-md rounded md:mt-10">
       <h2 className="text-2xl font-bold mb-4">Add Publisher</h2>
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
@@ -57,12 +57,12 @@ const AddPublisher = () => {
           placeholder="Publisher Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="border p-2 rounded"
+          className="border p-2 rounded border-green-200"
           required
         />
 
         <input
-          className="border p-2 rounded"
+          className="border p-2 rounded border-green-200"
           ref={fileInputRef}
           type="file"
           accept="image/*"
@@ -72,7 +72,7 @@ const AddPublisher = () => {
 
         <button
           type="submit"
-          className="bg-blue-600 text-white p-2 rounded"
+          className="bg-[#004c4c] hover:bg-[#006666] text-white p-2 rounded"
           disabled={loading}
         >
           {loading ? "Adding..." : "Add Publisher"}

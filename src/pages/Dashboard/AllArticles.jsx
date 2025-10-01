@@ -7,12 +7,12 @@ const AllArticles = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // For decline modal
+  // Decline modal
   const [openModal, setOpenModal] = useState(false);
   const [declineReason, setDeclineReason] = useState("");
   const [selectedId, setSelectedId] = useState(null);
 
-  // Load all articles
+  // Fetch articles
   const fetchArticles = async () => {
     setLoading(true);
     try {
@@ -66,107 +66,204 @@ const AllArticles = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">All Articles</h1>
+    <div className="p-4 md:p-6">
+      <h1 className="text-2xl font-bold mb-4 text-center md:text-start">
+        All Articles
+      </h1>
 
       {loading ? (
-        <Loading></Loading>
+        <Loading />
       ) : (
-        <div className="overflow-x-auto">
-          <table className="table table-zebra w-full">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Profile</th>
-                <th>Author</th>
-                <th>Email</th>
-                <th>Title</th>
-                <th>Posted</th>
-                <th>Status</th>
-                <th>Publisher</th>
-                <th>Premium</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {articles.map((a, idx) => (
-                <tr key={a._id}>
-                  <td>{idx + 1}</td>
-                  <td>
-                    <div className="avatar">
-                      <div className="w-10 rounded-full">
-                        <img
-                          src={
-                            a.author?.photo ||
-                            "https://i.ibb.co/4pDNDk1/avatar.png"
-                          }
-                          alt={a.author?.name}
-                        />
-                      </div>
-                    </div>
-                  </td>
-                  <td>{a.author?.name || "—"}</td>
-                  <td>{a.author?.email || "—"}</td>
-                  <td className="font-medium">{a.title}</td>
-                  <td>{new Date(a.createdAt).toLocaleString()}</td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        a.status === "approved"
-                          ? "badge-success"
-                          : a.status === "declined"
-                          ? "badge-error"
-                          : "badge-warning"
-                      }`}
-                    >
-                      {a.status}
-                    </span>
-                  </td>
-                  <td>{a.publisher}</td>
-                  <td>
-                    {a.isPremium && a.status === "approved" ? (
-                      <span className="badge badge-info">Premium</span>
-                    ) : (
-                      <span className="text-gray-400">—</span>
-                    )}
-                  </td>
-                  <td className="space-x-2">
-                    {a.status === "pending" && (
-                      <>
-                        <button
-                          className="btn btn-xs btn-success"
-                          onClick={() => approveArticle(a._id)}
-                        >
-                          Approve
-                        </button>
-                        <button
-                          className="btn btn-xs btn-error"
-                          onClick={() => openDecline(a._id)}
-                        >
-                          Decline
-                        </button>
-                      </>
-                    )}
-                    {a.status === "approved" && !a.isPremium && (
-                      <button
-                        className="btn btn-xs btn-warning"
-                        onClick={() => makePremium(a._id)}
-                      >
-                        Make Premium
-                      </button>
-                    )}
-                    <button
-                      className="btn btn-xs btn-outline btn-error"
-                      onClick={() => deleteArticle(a._id)}
-                    >
-                      Delete
-                    </button>
-                  </td>
+        <>
+          {/* Desktop*/}
+          <div className="hidden md:block overflow-x-auto rounded-lg shadow">
+            <table className="table table-zebra w-full text-sm">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Profile</th>
+                  <th>Author</th>
+                  <th>Email</th>
+                  <th>Title</th>
+                  <th>Posted</th>
+                  <th>Status</th>
+                  <th>Publisher</th>
+                  <th>Premium</th>
+                  <th>Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {articles.map((a, idx) => (
+                  <tr key={a._id}>
+                    <td>{idx + 1}</td>
+                    <td>
+                      <div className="avatar">
+                        <div className="w-10 rounded-full">
+                          <img
+                            src={
+                              a.author?.photo ||
+                              "https://i.ibb.co/4pDNDk1/avatar.png"
+                            }
+                            alt={a.author?.name}
+                          />
+                        </div>
+                      </div>
+                    </td>
+                    <td>{a.author?.name || "—"}</td>
+                    <td>{a.author?.email || "—"}</td>
+                    <td className="font-medium">{a.title}</td>
+                    <td>{new Date(a.createdAt).toLocaleString()}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          a.status === "approved"
+                            ? "badge-success"
+                            : a.status === "declined"
+                            ? "badge-error"
+                            : "badge-warning"
+                        }`}
+                      >
+                        {a.status}
+                      </span>
+                    </td>
+                    <td>{a.publisher}</td>
+                    <td>
+                      {a.isPremium && a.status === "approved" ? (
+                        <span className="badge badge-info">Premium</span>
+                      ) : (
+                        <span className="text-gray-400">—</span>
+                      )}
+                    </td>
+                    <td className="space-x-2">
+                      {a.status === "pending" && (
+                        <>
+                          <button
+                            className="btn btn-xs btn-success"
+                            onClick={() => approveArticle(a._id)}
+                          >
+                            Approve
+                          </button>
+                          <button
+                            className="btn btn-xs btn-error"
+                            onClick={() => openDecline(a._id)}
+                          >
+                            Decline
+                          </button>
+                        </>
+                      )}
+                      {a.status === "approved" && !a.isPremium && (
+                        <button
+                          className="btn btn-xs btn-warning"
+                          onClick={() => makePremium(a._id)}
+                        >
+                          Make Premium
+                        </button>
+                      )}
+                      <button
+                        className="btn btn-xs btn-outline btn-error"
+                        onClick={() => deleteArticle(a._id)}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Mobile Cards */}
+          <div className="grid gap-4 md:hidden pt-5">
+            {articles.map((a, idx) => (
+              <div
+                key={a._id}
+                className="bg-white shadow rounded-lg p-4 space-y-2 border border-green-100"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="avatar">
+                    <div className="w-12 rounded-full">
+                      <img
+                        src={
+                          a.author?.photo ||
+                          "https://i.ibb.co/4pDNDk1/avatar.png"
+                        }
+                        alt={a.author?.name}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <p className="font-semibold">{a.author?.name || "—"}</p>
+                    <p className="text-xs text-gray-500">{a.author?.email}</p>
+                  </div>
+                </div>
+
+                <p className="font-medium">{a.title}</p>
+                <p className="text-xs text-gray-500">
+                  {new Date(a.createdAt).toLocaleString()}
+                </p>
+
+                <p>
+                  <span
+                    className={`badge ${
+                      a.status === "approved"
+                        ? "badge-success"
+                        : a.status === "declined"
+                        ? "badge-error"
+                        : "badge-warning"
+                    }`}
+                  >
+                    {a.status}
+                  </span>
+                </p>
+
+                <p className="text-sm">
+                  <span className="font-semibold">Publisher:</span>{" "}
+                  {a.publisher}
+                </p>
+
+                {a.isPremium && a.status === "approved" && (
+                  <p>
+                    <span className="badge badge-info">Premium</span>
+                  </p>
+                )}
+
+                {/* Actions */}
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {a.status === "pending" && (
+                    <>
+                      <button
+                        className="btn btn-xs btn-success"
+                        onClick={() => approveArticle(a._id)}
+                      >
+                        Approve
+                      </button>
+                      <button
+                        className="btn btn-xs btn-error"
+                        onClick={() => openDecline(a._id)}
+                      >
+                        Decline
+                      </button>
+                    </>
+                  )}
+                  {a.status === "approved" && !a.isPremium && (
+                    <button
+                      className="btn btn-xs btn-warning"
+                      onClick={() => makePremium(a._id)}
+                    >
+                      Make Premium
+                    </button>
+                  )}
+                  <button
+                    className="btn btn-xs btn-outline btn-error"
+                    onClick={() => deleteArticle(a._id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
 
       {/* Decline Modal */}

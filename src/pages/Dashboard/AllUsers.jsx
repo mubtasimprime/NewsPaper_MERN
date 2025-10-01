@@ -48,12 +48,13 @@ const AllUsers = () => {
   if (loading) return <Loading />;
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-gray-100 p-4">
+    <div className="bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4 text-center md:text-left">
         All Users
       </h1>
 
-      <div className="overflow-x-auto">
+      {/*  Desktop */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="table w-full table-zebra bg-transparent min-w-[600px]">
           <thead className="bg-gray-200">
             <tr>
@@ -106,6 +107,58 @@ const AllUsers = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/*  Mobile */}
+      <div className="grid gap-4 md:hidden pt-5">
+        {users.map((user, i) => (
+          <div
+            key={user._id}
+            className="bg-white shadow rounded-lg p-4 border border-green-200 space-y-2"
+          >
+            <div className="flex items-center gap-3">
+              <div className="avatar">
+                <div className="w-12 h-12 rounded-full overflow-hidden">
+                  <img
+                    src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
+                    alt={user.name}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              </div>
+              <div>
+                <p className="font-semibold">{user.name}</p>
+                <p className="text-xs text-gray-500 truncate">{user.email}</p>
+              </div>
+            </div>
+
+            <p className="text-sm">
+              <span className="font-semibold">Role: </span>
+              <span className="capitalize">{user.role}</span>
+            </p>
+
+            {/* Actions */}
+            <div className="flex flex-wrap gap-2 pt-2">
+              {user.email === loggedInUser.email ? (
+                <span className="text-green-800 font-semibold">Admin</span>
+              ) : user.role === "admin" ? (
+                <button
+                  onClick={() => updateRole(user._id, "user")}
+                  className="btn btn-xs btn-warning"
+                >
+                  Make User
+                </button>
+              ) : (
+                <button
+                  onClick={() => updateRole(user._id, "admin")}
+                  className="btn btn-xs btn-success"
+                >
+                  Make Admin
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
