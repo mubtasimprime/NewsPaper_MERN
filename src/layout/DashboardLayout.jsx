@@ -32,7 +32,7 @@ const DashboardLayout = () => {
   }, [sidebarOpen]);
 
   return (
-    <div className="min-h-screen flex bg-gray-100 relative">
+    <div className="flex bg-gray-100 relative">
       {/* Hamburger / Close button for small screens */}
       <button
         className="md:hidden fixed top-4 left-4 z-50 p-2 rounded bg-white shadow"
@@ -59,7 +59,6 @@ const DashboardLayout = () => {
         />
       </aside>
 
-
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-25 z-30 md:hidden"
@@ -68,7 +67,7 @@ const DashboardLayout = () => {
       )}
 
       {/* Main Content */}
-      <div className="flex-1 p-4 md:p-6">
+      <div className="flex-1 md:p-6">
         <Outlet />
       </div>
     </div>

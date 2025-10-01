@@ -45,15 +45,17 @@ const AllUsers = () => {
     }
   };
 
-  if (loading) return <Loading></Loading>;
+  if (loading) return <Loading />;
 
   return (
-    <div>
-      <h1 className="text-2xl font-bold mb-6">All Users</h1>
+    <div className="min-h-[calc(100vh-64px)] bg-gray-100 p-4">
+      <h1 className="text-2xl font-bold mb-4 text-center md:text-left">
+        All Users
+      </h1>
 
       <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead>
+        <table className="table w-full table-zebra bg-transparent min-w-[600px]">
+          <thead className="bg-gray-200">
             <tr>
               <th>#</th>
               <th>Profile</th>
@@ -65,24 +67,25 @@ const AllUsers = () => {
           </thead>
           <tbody>
             {users.map((user, i) => (
-              <tr key={user._id}>
+              <tr key={user._id} className="hover:bg-gray-100">
                 <td>{i + 1}</td>
                 <td>
-                  <div className="avatar">
-                    <div className="w-10 rounded-full">
-                      <img
-                        src={user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"}
-                        alt={user.name}
-                      />
-                    </div>
+                  <div className="avatar w-10 h-10 rounded-full overflow-hidden">
+                    <img
+                      src={
+                        user.photoURL || "https://i.ibb.co/4pDNDk1/avatar.png"
+                      }
+                      alt={user.name}
+                      className="object-cover w-full h-full"
+                    />
                   </div>
                 </td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
+                <td className="truncate max-w-[100px]">{user.name}</td>
+                <td className="truncate max-w-[150px]">{user.email}</td>
                 <td className="text-center capitalize">{user.role}</td>
-                <td className="text-center">
+                <td className="text-center flex flex-col md:flex-row gap-1 justify-center">
                   {user.email === loggedInUser.email ? (
-                    <span className="text-green-800">Admin</span>
+                    <span className="text-green-800 font-semibold">Admin</span>
                   ) : user.role === "admin" ? (
                     <button
                       onClick={() => updateRole(user._id, "user")}

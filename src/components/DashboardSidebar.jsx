@@ -17,7 +17,7 @@ const DashboardSidebar = ({ userRole, onLinkClick }) => {
      }`;
 
   return (
-    <div className="flex flex-col h-screen justify-between">
+    <div className="flex flex-col justify-between">
       <div className="flex flex-col space-y-4">
         <NavLink to="/" className={linkClasses} onClick={onLinkClick}>
           <MdHome className="text-lg" />
