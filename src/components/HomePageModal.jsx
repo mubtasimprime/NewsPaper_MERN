@@ -9,7 +9,7 @@ const HomePageModal = () => {
     if (window.location.pathname === "/") {
       const timer = setTimeout(() => {
         setShowModal(true);
-      }, 5000);
+      }, 10000);
 
       return () => clearTimeout(timer);
     }

@@ -33,7 +33,15 @@ const PremiumArticles = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">Premium Articles</h1>
+      <h1 className="text-3xl font-extrabold text-gray-800 mb-4 text-center">
+        Premium Articles ⭐
+      </h1>
+      <p className="text-gray-600 text-lg max-w-4xl mx-auto text-center mb-6">
+        Unlock exclusive access to in-depth articles, expert insights, and
+        high-quality content available only to premium members. Stay ahead with
+        carefully curated information designed to provide greater value and a
+        deeper understanding of your interests.
+      </p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-9/12 mx-auto">
         {articles.map((article) => {

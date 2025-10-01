@@ -22,17 +22,17 @@ export default function Subscription() {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <div
-        className="h-[70vh] bg-cover bg-center"
+        className="h-[50vh] sm:h-[70vh] bg-cover bg-center"
         style={{
-          backgroundImage: "url('https://i.ibb.co.com/Qjm1H5T4/sub.jpg')",
+          backgroundImage: "url('https://i.ibb.co/Qjm1H5T4/sub.jpg')",
         }}
       >
         <div className="h-full w-full bg-black/10"></div>
       </div>
 
-      <div className="flex-grow flex justify-center items-center py-12 bg-gradient-to-b from-gray-100 to-gray-200">
+      <div className="flex-grow flex justify-center items-center py-12 max-w-9/12 mx-auto">
         <div className="backdrop-blur-md bg-white/70 shadow-xl rounded-2xl p-8 w-full max-w-md border border-gray-200">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+          <h2 className="text-3xl font-extrabold text-gray-800 mb-4 text-center">
             Choose Your Plan
           </h2>
 

@@ -49,7 +49,14 @@ const AllArticlesPublic = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">All Articles</h1>
+      <h1 className="text-3xl font-extrabold text-gray-800 mb-4 text-center">
+        All Articles 🌍
+      </h1>
+      <p className="text-gray-600 text-lg max-w-4xl mx-auto text-center mb-6">
+        Explore a wide range of articles covering the latest news, trends, and
+        insights across various topics. Stay informed and inspired with content
+        curated to keep you updated and engaged.
+      </p>
 
       {/* Search & Filters */}
       <div className="flex flex-col md:flex-row gap-4 mb-6 max-w-9/12 mx-auto">

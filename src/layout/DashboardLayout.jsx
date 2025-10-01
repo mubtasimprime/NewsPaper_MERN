@@ -59,7 +59,7 @@ const DashboardLayout = () => {
         />
       </aside>
 
-      {/* Overlay when sidebar is open on small screens */}
+
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black opacity-25 z-30 md:hidden"
