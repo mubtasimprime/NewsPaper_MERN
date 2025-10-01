@@ -66,8 +66,15 @@ const MyArticles = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6 text-center">My Articles</h1>
+    <div className="p-6 min-h-[calc(100vh-64px)] max-w-9/12 mx-auto">
+      <h1 className="text-3xl font-extrabold text-gray-800 mb-4 text-center">
+        My Articles
+      </h1>
+      <p className="text-gray-600 text-lg max-w-4xl mx-auto mb-6">
+        Here you can view all the articles you have created, manage their
+        status, and make updates or deletions as needed. Stay organized and keep
+        track of which articles are approved, pending, or declined.
+      </p>
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead>
