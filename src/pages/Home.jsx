@@ -6,6 +6,7 @@ import HomePublisher from "../components/Home/HomePublisher";
 import HomeStatistic from "../components/Home/HomeStatistic";
 import HomePlans from "../components/Home/HomePlans";
 import FAQ from "../components/Home/FAQ";
+import HomePageModal from "../components/HomePageModal";
 
 const Home = () => {
   return (
@@ -17,6 +18,7 @@ const Home = () => {
       <HomePlans></HomePlans>
       <FAQ></FAQ>
       <HomeContact></HomeContact>
+      <HomePageModal></HomePageModal>
     </>
   );
 };

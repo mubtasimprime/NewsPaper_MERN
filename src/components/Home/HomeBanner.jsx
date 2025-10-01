@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useQuery } from "@tanstack/react-query";
+import Loading from "../../pages/shared/Loading";
 
 const fetchArticles = async () => {
   const res = await axios.get(
@@ -28,7 +29,7 @@ const TrendingArticlesSlider = () => {
     staleTime: 1000 * 60 * 5,
   });
 
-  if (isLoading) return <div className="text-center py-10">Loading...</div>;
+  if (isLoading) return <Loading></Loading>;
   if (isError)
     return <div className="text-center py-10">Failed to load articles.</div>;
 
