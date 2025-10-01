@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loading from "../shared/Loading";
 
 const AllArticles = () => {
   const [articles, setArticles] = useState([]);
@@ -69,7 +70,7 @@ const AllArticles = () => {
       <h1 className="text-2xl font-bold mb-4">All Articles</h1>
 
       {loading ? (
-        <p>Loading...</p>
+        <Loading></Loading>
       ) : (
         <div className="overflow-x-auto">
           <table className="table table-zebra w-full">

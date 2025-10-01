@@ -5,10 +5,9 @@ import {
   FaUsers,
   FaNewspaper,
   FaPlusCircle,
-  FaArrowLeft,
 } from "react-icons/fa";
 
-const DashboardSidebar = ({ userRole, closeSidebar }) => {
+const DashboardSidebar = ({ userRole, onLinkClick }) => {
   const linkClasses = ({ isActive }) =>
     `flex items-center gap-2 px-2 py-1 rounded transition
      ${
@@ -18,10 +17,9 @@ const DashboardSidebar = ({ userRole, closeSidebar }) => {
      }`;
 
   return (
-    <div className="flex flex-col h-full justify-between">
-      {/* top section */}
+    <div className="flex flex-col h-screen justify-between">
       <div className="flex flex-col space-y-4">
-        <NavLink to="/" className={linkClasses} onClick={closeSidebar}>
+        <NavLink to="/" className={linkClasses} onClick={onLinkClick}>
           <MdHome className="text-lg" />
           Home Page
         </NavLink>
@@ -32,7 +30,7 @@ const DashboardSidebar = ({ userRole, closeSidebar }) => {
               to="/dashboard"
               end
               className={linkClasses}
-              onClick={closeSidebar}
+              onClick={onLinkClick}
             >
               <MdDashboard className="text-lg" />
               Overview
@@ -41,7 +39,7 @@ const DashboardSidebar = ({ userRole, closeSidebar }) => {
             <NavLink
               to="/dashboard/users"
               className={linkClasses}
-              onClick={closeSidebar}
+              onClick={onLinkClick}
             >
               <FaUsers className="text-lg" />
               All Users Page
@@ -50,7 +48,7 @@ const DashboardSidebar = ({ userRole, closeSidebar }) => {
             <NavLink
               to="/dashboard/articles"
               className={linkClasses}
-              onClick={closeSidebar}
+              onClick={onLinkClick}
             >
               <FaNewspaper className="text-lg" />
               All Articles Page
@@ -59,7 +57,7 @@ const DashboardSidebar = ({ userRole, closeSidebar }) => {
             <NavLink
               to="/dashboard/add-publisher"
               className={linkClasses}
-              onClick={closeSidebar}
+              onClick={onLinkClick}
             >
               <FaPlusCircle className="text-lg" />
               Add Publisher Page
@@ -71,20 +69,12 @@ const DashboardSidebar = ({ userRole, closeSidebar }) => {
           <NavLink
             to="/dashboard/profile"
             className={linkClasses}
-            onClick={closeSidebar}
+            onClick={onLinkClick}
           >
             <FaUserCircle className="text-lg" />
             Profile
           </NavLink>
         )}
-      </div>
-
-      {/* bottom section – Home Page */}
-      <div className="mt-6">
-        <NavLink to="/" className={linkClasses} onClick={closeSidebar}>
-          <FaArrowLeft className="text-lg" />
-          Home Page
-        </NavLink>
       </div>
     </div>
   );
