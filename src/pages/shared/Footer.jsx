@@ -66,7 +66,7 @@ const Footer = ({ user, isPremium }) => {
   return (
     <footer className="bg-[#004c4c] text-white py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-9/12 mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Logo & About */}
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-3">

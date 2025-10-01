@@ -42,7 +42,7 @@ const FAQSection = () => {
   };
 
   return (
-    <section className="py-15 rounded-2xl">
+    <section className="py-15 rounded-2xl max-w-9/12 mx-auto">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-16">

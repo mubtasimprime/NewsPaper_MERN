@@ -53,7 +53,7 @@ const HomeStatistic = () => {
 
   return (
     <section className="max-w-8/12 mx-auto jakarta px-10 lg:px-0 pt-10">
-      <div className="text-center flex flex-col gap-4 -mb-10">
+      <div className="text-center flex flex-col gap-4 mb-4 lg:-mb-10">
         <h1 className="text-[38px] leading-12 lg:text-[40px] font-extrabold">
           User Statistics
         </h1>

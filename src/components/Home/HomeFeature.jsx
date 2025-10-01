@@ -42,7 +42,7 @@ const HomeFeature = () => {
           you never miss what matters most.
         </p>
 
-        <div className="max-w-9/12 mx-auto md:max-w-full grid gap-8 grid-cols-1 sm:grid-cols-2 md:grid-cols-4">
+        <div className="max-w-9/12 mx-auto md:max-w-full grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
             <div
               key={index}

@@ -49,36 +49,39 @@ export default function Subscription() {
   };
 
   return (
-    <div className="bg-gray-50 py-12 flex flex-col items-center">
-      <h2 className="text-[38px] leading-12 lg:text-[40px] font-extrabold mb-4">
-        Choose Your Plan
-      </h2>
-      <p className="text-gray-700 max-w-[600px] mx-auto mb-8 text-center">
-        Select the plan that suits your reading style. Our flexible options
-        ensure you never miss the stories that matter most.
-      </p>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
-        {plans.map((plan, idx) => (
-          <div
-            key={idx}
-            className="rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col bg-white hover:shadow-2xl transition"
-          >
-            <h3 className="text-xl font-semibold mb-2">{plan.title}</h3>
-            <p className="text-lg font-bold mb-4">{plan.price}</p>
-            <ul className="text-gray-600 mb-6 space-y-2 flex-1">
-              {plan.desc.map((d, i) => (
-                <li key={i}>• {d}</li>
-              ))}
-            </ul>
-            <button
-              onClick={handleSelect}
-              className={`w-full py-3 rounded-lg font-semibold transition ${plan.color}`}
+    <section className="bg-gray-50">
+      {" "}
+      <div className="py-12 flex flex-col items-center max-w-9/12 mx-auto">
+        <h2 className="text-[38px] leading-12 lg:text-[40px] font-extrabold mb-4">
+          Choose Your Plan
+        </h2>
+        <p className="text-gray-700 max-w-[600px] mx-auto mb-8 text-center">
+          Select the plan that suits your reading style. Our flexible options
+          ensure you never miss the stories that matter most.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full max-w-6xl">
+          {plans.map((plan, idx) => (
+            <div
+              key={idx}
+              className="rounded-2xl shadow-lg border border-gray-200 p-6 flex flex-col bg-white hover:shadow-2xl transition"
             >
-              {plan.button}
-            </button>
-          </div>
-        ))}
+              <h3 className="text-xl font-semibold mb-2">{plan.title}</h3>
+              <p className="text-lg font-bold mb-4">{plan.price}</p>
+              <ul className="text-gray-600 mb-6 space-y-2 flex-1">
+                {plan.desc.map((d, i) => (
+                  <li key={i}>• {d}</li>
+                ))}
+              </ul>
+              <button
+                onClick={handleSelect}
+                className={`w-full py-3 rounded-lg font-semibold transition ${plan.color}`}
+              >
+                {plan.button}
+              </button>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </section>
   );
 }
