@@ -7,17 +7,18 @@ import { FaHome } from "react-icons/fa";
 import { RiArticleFill } from "react-icons/ri";
 import { PiArticleFill } from "react-icons/pi";
 import { MdSubscriptions } from "react-icons/md";
-import { PiArticleMediumFill } from "react-icons/pi";
 import { auth } from "../../firebase/firebase.init";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { GrArticle } from "react-icons/gr";
 import { MdDashboard } from "react-icons/md";
+import { FaSignInAlt, FaUserPlus } from "react-icons/fa";
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [role, setRole] = useState(null);
 
+  // fetch role
   const { data: roleData } = useQuery({
     queryKey: ["role", user?.email],
     queryFn: async () => {
@@ -33,6 +34,7 @@ const Navbar = () => {
     if (roleData) setRole(roleData.role);
   }, [roleData]);
 
+  // fetch subscription
   const { data: subscription } = useQuery({
     queryKey: ["subscription", user?.email],
     queryFn: async () => {
@@ -46,6 +48,7 @@ const Navbar = () => {
 
   const isPremium = subscription?.premium || false;
 
+  // auth state
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
@@ -64,7 +67,6 @@ const Navbar = () => {
     <>
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -75,7 +77,6 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/add-article"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -86,7 +87,6 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/all-articles"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -99,7 +99,6 @@ const Navbar = () => {
       {isPremium && (
         <li>
           <NavLink
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             to="/premium-article"
             className={({ isActive }) =>
               `flex items-center gap-1 ${
@@ -116,7 +115,6 @@ const Navbar = () => {
 
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/subscription"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -127,22 +125,18 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/my-articles"
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
           }
         >
-          <GrArticle />
-          Articles
+          <GrArticle /> Articles
         </NavLink>
       </li>
 
-      {/* Show Dashboard in navbar only if admin */}
       {role === "admin" && (
         <li>
           <NavLink
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             to="/dashboard"
             className={({ isActive }) =>
               `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
@@ -157,6 +151,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar max-w-9/12 mx-auto">
+      {/* Left side: Logo & Mobile menu */}
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -180,39 +175,52 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
             {navItems}
+
+            {/* SignIn / SignUp inside dropdown on mobile */}
+            {!user && (
+              <>
+                <li>
+                  <Link to="/auth/login" className="flex items-center gap-2">
+                    <FaSignInAlt /> SignIn
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/auth/register" className="flex items-center gap-2">
+                    <FaUserPlus /> SignUp
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
-        <Link
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-          to="/"
-          className="flex items-center gap-3"
-        >
-          <img className="w-12 h-12 md:w-12 md:h-12" src={Logo} alt="" />
+
+        {/* Logo */}
+        <Link to="/" className="flex items-center gap-3">
+          <img className="w-12 h-12 md:w-12 md:h-12" src={Logo} alt="Logo" />
           <h1 className="md:text-2xl">
             Prime<span className="text-3 font-black">News</span>
           </h1>
         </Link>
       </div>
 
+      {/* Center nav for desktop */}
       <div className="navbar-center hidden lg:flex">
         <ul className="flex gap-8 items-center justify-center text-lg font-medium">
           {navItems}
         </ul>
       </div>
 
-      {/* Right side avatar / login */}
+      {/* Right side: SignIn/SignUp (desktop) OR Avatar (all devices) */}
       <div className="navbar-end">
         {!user ? (
-          <div className="flex gap-3">
+          <div className="hidden lg:flex gap-3">
             <Link
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               to="/auth/login"
               className="bg-[#004c4c] hover:bg-[#006666] transition duration-300 text-white px-5 py-1 rounded-md"
             >
               SignIn
             </Link>
             <Link
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               to="/auth/register"
               className="bg-[#004c4c] hover:bg-[#006666] transition duration-300 text-white px-5 py-1 rounded-md"
             >
@@ -236,20 +244,9 @@ const Navbar = () => {
                   {user.displayName || "User"}
                 </span>
               </li>
-
-              {/* Only show dashboard if user is admin */}
-
               <li>
-                <Link
-                  onClick={() =>
-                    window.scrollTo({ top: 0, behavior: "smooth" })
-                  }
-                  to="/profile"
-                >
-                  Profile
-                </Link>
+                <Link to="/profile">Profile</Link>
               </li>
-
               <li>
                 <button onClick={handleLogout}>Logout</button>
               </li>
