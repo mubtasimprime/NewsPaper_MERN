@@ -6,7 +6,7 @@ PrimeNews is a full-stack news web application built using the **MERN stack (Mon
 
 ## 🌐 Live Site
 
-[PrimeNews Live](https://your-live-site-url.com)
+[PrimeNews Live](https://prime-newspaper.netlify.app/)
 
 ---
 
