@@ -10,9 +10,16 @@ const AllArticlesPublic = () => {
   const [publisherFilter, setPublisherFilter] = useState("");
   const [tagFilter, setTagFilter] = useState("");
   const [isPremiumUser, setIsPremiumUser] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   const navigate = useNavigate();
   const { user } = useAuth();
+
+  const itemsPerPage = 6;
 
   // Fetch articles with filters
   const fetchArticles = async () => {
@@ -27,6 +34,7 @@ const AllArticlesPublic = () => {
         { params }
       );
       setArticles(res.data);
+      setCurrentPage(1); // reset to page 1 after new filter/search
     } catch (err) {
       console.error(err);
     }
@@ -46,6 +54,11 @@ const AllArticlesPublic = () => {
         .catch(() => setIsPremiumUser(false));
     }
   }, [user?.email]);
+
+  // Pagination logic
+  const totalPages = Math.ceil(articles.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentArticles = articles.slice(startIndex, startIndex + itemsPerPage);
 
   return (
     <div className="min-h-screen bg-gray-100 p-6">
@@ -91,7 +104,7 @@ const AllArticlesPublic = () => {
 
       {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-9/12 mx-auto">
-        {articles.map((article) => {
+        {currentArticles.map((article) => {
           const isPremiumArticle = article.isPremium;
           const isLocked = isPremiumArticle && !isPremiumUser;
 
@@ -166,6 +179,41 @@ const AllArticlesPublic = () => {
           );
         })}
       </div>
+
+      {/* Pagination */}
+      {articles.length > itemsPerPage && (
+        <div className="flex justify-center items-center gap-2 mt-10">
+          <button
+            className="btn btn-sm"
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+
+          {[...Array(totalPages)].map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentPage(idx + 1)}
+              className={`btn btn-sm ${
+                currentPage === idx + 1 ? "btn-primary" : "btn-outline"
+              }`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+
+          <button
+            className="btn btn-sm"
+            onClick={() => {
+              setCurrentPage((p) => Math.min(p + 1, totalPages));
+            }}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

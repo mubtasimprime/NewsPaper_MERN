@@ -10,6 +10,9 @@ const AllUsers = () => {
 
   const { user: loggedInUser } = useAuth();
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
+
   // Fetch all users
   useEffect(() => {
     const fetchUsers = async () => {
@@ -47,13 +50,18 @@ const AllUsers = () => {
 
   if (loading) return <Loading />;
 
+  // Pagination logic
+  const totalPages = Math.ceil(users.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedUsers = users.slice(startIndex, startIndex + itemsPerPage);
+
   return (
     <div className="bg-gray-100 p-4">
       <h1 className="text-2xl font-bold mb-4 text-center md:text-left">
         All Users
       </h1>
 
-      {/*  Desktop */}
+      {/* Desktop Table */}
       <div className="hidden md:block overflow-x-auto">
         <table className="table w-full table-zebra bg-transparent min-w-[600px]">
           <thead className="bg-gray-200">
@@ -67,9 +75,9 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, i) => (
+            {paginatedUsers.map((user, i) => (
               <tr key={user._id} className="hover:bg-gray-100">
-                <td>{i + 1}</td>
+                <td>{startIndex + i + 1}</td>
                 <td>
                   <div className="avatar w-10 h-10 rounded-full overflow-hidden">
                     <img
@@ -109,9 +117,9 @@ const AllUsers = () => {
         </table>
       </div>
 
-      {/*  Mobile */}
+      {/* Mobile View */}
       <div className="grid gap-4 md:hidden pt-5">
-        {users.map((user, i) => (
+        {paginatedUsers.map((user, i) => (
           <div
             key={user._id}
             className="bg-white shadow rounded-lg p-4 border border-green-200 space-y-2"
@@ -160,6 +168,39 @@ const AllUsers = () => {
           </div>
         ))}
       </div>
+
+      {/* Pagination */}
+      {users.length > itemsPerPage && (
+        <div className="flex justify-center items-center gap-2 mt-10">
+          <button
+            className="btn btn-sm"
+            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+
+          {[...Array(totalPages)].map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentPage(idx + 1)}
+              className={`btn btn-sm ${
+                currentPage === idx + 1 ? "btn-primary" : "btn-outline"
+              }`}
+            >
+              {idx + 1}
+            </button>
+          ))}
+
+          <button
+            className="btn btn-sm"
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
     </div>
   );
 };

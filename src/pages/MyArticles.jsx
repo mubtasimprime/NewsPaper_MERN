@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { AuthContext } from "../context/AuthContext";
@@ -16,6 +16,10 @@ const MyArticles = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
   const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
 
   // Fetch articles after user is loaded
   const {

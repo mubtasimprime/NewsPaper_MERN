@@ -7,6 +7,11 @@ const AllArticles = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(articles.length / itemsPerPage);
+
   // Decline modal
   const [openModal, setOpenModal] = useState(false);
   const [declineReason, setDeclineReason] = useState("");
@@ -28,6 +33,18 @@ const AllArticles = () => {
   useEffect(() => {
     fetchArticles();
   }, []);
+
+  // Scroll to top when page changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentPage]);
+
+  // Pagination slice
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const paginatedArticles = articles.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   const approveArticle = async (id) => {
     await axios.patch(`${import.meta.env.VITE_API_URL}/articles/${id}/approve`);
@@ -75,7 +92,7 @@ const AllArticles = () => {
         <Loading />
       ) : (
         <>
-          {/* Desktop*/}
+          {/* Desktop Table */}
           <div className="hidden md:block overflow-x-auto rounded-lg shadow">
             <table className="table table-zebra w-full text-sm">
               <thead>
@@ -93,9 +110,9 @@ const AllArticles = () => {
                 </tr>
               </thead>
               <tbody>
-                {articles.map((a, idx) => (
+                {paginatedArticles.map((a, idx) => (
                   <tr key={a._id}>
-                    <td>{idx + 1}</td>
+                    <td>{startIndex + idx + 1}</td>
                     <td>
                       <div className="avatar">
                         <div className="w-10 rounded-full">
@@ -174,7 +191,7 @@ const AllArticles = () => {
 
           {/* Mobile Cards */}
           <div className="grid gap-4 md:hidden pt-5">
-            {articles.map((a, idx) => (
+            {paginatedArticles.map((a, idx) => (
               <div
                 key={a._id}
                 className="bg-white shadow rounded-lg p-4 space-y-2 border border-green-100"
@@ -263,6 +280,41 @@ const AllArticles = () => {
               </div>
             ))}
           </div>
+
+          {/* Pagination */}
+          {articles.length > itemsPerPage && (
+            <div className="flex justify-center items-center gap-2 mt-10">
+              <button
+                className="btn btn-sm"
+                onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
+                disabled={currentPage === 1}
+              >
+                Prev
+              </button>
+
+              {[...Array(totalPages)].map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentPage(idx + 1)}
+                  className={`btn btn-sm ${
+                    currentPage === idx + 1 ? "btn-primary" : "btn-outline"
+                  }`}
+                >
+                  {idx + 1}
+                </button>
+              ))}
+
+              <button
+                className="btn btn-sm"
+                onClick={() => {
+                  setCurrentPage((p) => Math.min(p + 1, totalPages));
+                }}
+                disabled={currentPage === totalPages}
+              >
+                Next
+              </button>
+            </div>
+          )}
         </>
       )}
 
