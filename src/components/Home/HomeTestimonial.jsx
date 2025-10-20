@@ -61,9 +61,16 @@ const HomeTestimonial = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-12 relative">
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 dark:text-white">
-        What Students Are Saying
-      </h2>
+      <div className="text-center flex flex-col gap-4 mb-4 lg:mb-10">
+        <h1 className="text-[38px] leading-12 lg:text-[40px] font-extrabold">
+          What Readers Are Saying
+        </h1>
+        <p className="text-gray-700 max-w-[600px] mx-auto">
+          Users appreciate seeing the platform’s growth and how normal and
+          premium subscribers are distributed, giving insight into engagement
+          and community trends.
+        </p>
+      </div>
 
       <Swiper
         spaceBetween={20}
