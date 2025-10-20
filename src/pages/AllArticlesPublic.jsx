@@ -11,17 +11,18 @@ const AllArticlesPublic = () => {
   const [tagFilter, setTagFilter] = useState("");
   const [isPremiumUser, setIsPremiumUser] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortByViews, setSortByViews] = useState("");
 
+  const itemsPerPage = 6;
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
+  // Scroll to top on page change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  const navigate = useNavigate();
-  const { user } = useAuth();
-
-  const itemsPerPage = 6;
-
-  // Fetch articles with filters
+  // Fetch articles with filters and sorting
   const fetchArticles = async () => {
     const params = {};
     if (search) params.search = search;
@@ -33,8 +34,17 @@ const AllArticlesPublic = () => {
         `${import.meta.env.VITE_API_URL}/public-articles`,
         { params }
       );
-      setArticles(res.data);
-      setCurrentPage(1); // reset to page 1 after new filter/search
+      let data = res.data;
+
+      // Apply sorting
+      if (sortByViews === "most") {
+        data.sort((a, b) => (b.viewCount || 0) - (a.viewCount || 0));
+      } else if (sortByViews === "least") {
+        data.sort((a, b) => (a.viewCount || 0) - (b.viewCount || 0));
+      }
+
+      setArticles(data);
+      setCurrentPage(1);
     } catch (err) {
       console.error(err);
     }
@@ -44,6 +54,11 @@ const AllArticlesPublic = () => {
   useEffect(() => {
     fetchArticles();
   }, []);
+
+  // Re-fetch on sort change
+  useEffect(() => {
+    fetchArticles();
+  }, [sortByViews]);
 
   // Check subscription
   useEffect(() => {
@@ -67,12 +82,11 @@ const AllArticlesPublic = () => {
       </h1>
       <p className="text-gray-600 text-lg max-w-4xl mx-auto text-center mb-6">
         Explore a wide range of articles covering the latest news, trends, and
-        insights across various topics. Stay informed and inspired with content
-        curated to keep you updated and engaged.
+        insights across various topics.
       </p>
 
       {/* Search & Filters */}
-      <div className="flex flex-col md:flex-row gap-4 mb-6 max-w-9/12 mx-auto">
+      <div className="flex flex-col md:flex-row gap-4 mb-4 max-w-9/12 mx-auto">
         <input
           type="text"
           placeholder="Search by title"
@@ -102,6 +116,30 @@ const AllArticlesPublic = () => {
         </button>
       </div>
 
+      {/* Sorting Buttons */}
+      <div className="flex justify-center gap-2 mb-6 relative max-w-9/12 mx-auto">
+        {["", "most", "least"].map((option, idx) => {
+          let label = "Default";
+          if (option === "most") label = "Most Viewed";
+          if (option === "least") label = "Least Viewed";
+          const isActive = sortByViews === option;
+
+          return (
+            <button
+              key={idx}
+              onClick={() => setSortByViews(option)}
+              className={`px-4 py-2 rounded transition font-medium ${
+                isActive
+                  ? "bg-[#004c4c] text-white"
+                  : "bg-gray-200 text-gray-700 hover:bg-[#004c4c] hover:text-white"
+              }`}
+            >
+              {label}
+            </button>
+          );
+        })}
+      </div>
+
       {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-9/12 mx-auto">
         {currentArticles.map((article) => {
@@ -119,7 +157,6 @@ const AllArticlesPublic = () => {
                 }
               `}
             >
-              {/* Premium Badge */}
               {isPremiumArticle && (
                 <div className="absolute top-0 left-0 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-br-lg shadow">
                   PREMIUM
@@ -138,7 +175,6 @@ const AllArticlesPublic = () => {
                   Publisher: {article.publisher}
                 </p>
 
-                {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-2">
                   {article.tags?.map((tag) => (
                     <span
@@ -150,7 +186,6 @@ const AllArticlesPublic = () => {
                   ))}
                 </div>
 
-                {/* Views */}
                 <div className="flex items-center gap-1 text-gray-600 mb-2">
                   <Eye size={18} />
                   <span>{article.viewCount || 0}</span>
@@ -160,17 +195,14 @@ const AllArticlesPublic = () => {
                   {article.description}
                 </p>
 
-                {/* Details Button */}
                 <button
                   onClick={() => navigate(`/article-details/${article._id}`)}
                   disabled={isLocked}
-                  className={`mt-auto px-4 py-2 rounded transition
-                    ${
-                      isLocked
-                        ? "bg-gray-400 cursor-not-allowed text-white"
-                        : "bg-[#004c4c] hover:bg-[#006666] text-white"
-                    }
-                  `}
+                  className={`mt-auto px-4 py-2 rounded transition ${
+                    isLocked
+                      ? "bg-gray-400 cursor-not-allowed text-white"
+                      : "bg-[#004c4c] hover:bg-[#006666] text-white"
+                  }`}
                 >
                   {isLocked ? "Subscribe to Unlock" : "Details"}
                 </button>
@@ -205,9 +237,7 @@ const AllArticlesPublic = () => {
 
           <button
             className="btn btn-sm"
-            onClick={() => {
-              setCurrentPage((p) => Math.min(p + 1, totalPages));
-            }}
+            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
             disabled={currentPage === totalPages}
           >
             Next
