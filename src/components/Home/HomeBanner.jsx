@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../pages/shared/Loading";
+import { FaArrowRight } from "react-icons/fa";
 
 const fetchArticles = async () => {
   const res = await axios.get(
@@ -64,6 +65,16 @@ const TrendingArticlesSlider = () => {
                 <h3 className="text-lg font-semibold line-clamp-2">
                   {article.title}
                 </h3>
+                <p className="text-sm opacity-90 mb-0 flex items-center justify-center gap-2">
+                  {article.description?.slice(0, 80)}...
+                  <button
+                    onClick={() => navigate(`/article-details/${article._id}`)}
+                    className="hidden cursor-pointer lg:inline-flex items-center gap-2 text-sm bg-white/10 hover:bg-white/20 transition px-4 py-1.5 rounded-full"
+                  >
+                    See Details
+                    <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
+                  </button>
+                </p>
               </div>
             </div>
           </SwiperSlide>
