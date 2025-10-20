@@ -13,6 +13,8 @@ const MyArticles = () => {
   const { user, loading: authLoading } = useContext(AuthContext);
   const [declineReason, setDeclineReason] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 4;
   const navigate = useNavigate();
 
   // Fetch articles after user is loaded
@@ -42,6 +44,11 @@ const MyArticles = () => {
   if (!articles.length)
     return <p className="text-center mt-10">No articles found.</p>;
 
+  // Pagination
+  const totalPages = Math.ceil(articles.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const currentArticles = articles.slice(startIndex, startIndex + itemsPerPage);
+
   const handleDelete = async (id) => {
     const confirm = window.confirm(
       "Are you sure you want to delete this article?"
@@ -56,8 +63,6 @@ const MyArticles = () => {
         }
       );
       if (!res.ok) throw new Error("Failed to delete article");
-
-      // React Query refetch
       alert("Article deleted successfully");
     } catch (err) {
       console.error(err);
@@ -75,6 +80,8 @@ const MyArticles = () => {
         status, and make updates or deletions as needed. Stay organized and keep
         track of which articles are approved, pending, or declined.
       </p>
+
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="table table-zebra w-full">
           <thead>
@@ -88,9 +95,9 @@ const MyArticles = () => {
             </tr>
           </thead>
           <tbody>
-            {articles.map((article, idx) => (
+            {currentArticles.map((article, idx) => (
               <tr key={article._id}>
-                <th>{idx + 1}</th>
+                <th>{startIndex + idx + 1}</th>
                 <td>{article.title}</td>
 
                 {/* Details Button */}
@@ -167,6 +174,37 @@ const MyArticles = () => {
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Pagination */}
+      <div className="flex justify-center items-center mt-6 gap-2">
+        <button
+          className="btn btn-sm"
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          Prev
+        </button>
+        {[...Array(totalPages)].map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => setCurrentPage(idx + 1)}
+            className={`btn btn-sm ${
+              currentPage === idx + 1 ? "btn-primary" : "btn-outline"
+            }`}
+          >
+            {idx + 1}
+          </button>
+        ))}
+        <button
+          className="btn btn-sm"
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
       </div>
 
       {/* Decline Reason Modal */}
