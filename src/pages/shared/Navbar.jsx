@@ -62,9 +62,9 @@ const Navbar = () => {
       toast.success("Logout successful!", { autoClose: 1500 });
     });
   };
-  // testing
 
-  const navItems = (
+
+  const publicNavItems = (
     <>
       <li>
         <NavLink
@@ -79,8 +79,8 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/add-article"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
           }
@@ -90,8 +90,8 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/all-articles"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
           }
@@ -99,12 +99,17 @@ const Navbar = () => {
           <PiArticleFill /> All Articles
         </NavLink>
       </li>
+    </>
+  );
 
+  const privateNavItems = (
+    <>
+      {publicNavItems}
       {isPremium && (
         <li>
           <NavLink
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             to="/premium-article"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className={({ isActive }) =>
               `flex items-center gap-1 ${
                 isActive
@@ -117,11 +122,10 @@ const Navbar = () => {
           </NavLink>
         </li>
       )}
-
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/subscription"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
           }
@@ -131,8 +135,8 @@ const Navbar = () => {
       </li>
       <li>
         <NavLink
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/my-articles"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className={({ isActive }) =>
             `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
           }
@@ -140,12 +144,11 @@ const Navbar = () => {
           <GrArticle /> Articles
         </NavLink>
       </li>
-
       {role === "admin" && (
         <li>
           <NavLink
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             to="/dashboard"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
             className={({ isActive }) =>
               `flex items-center gap-1 ${isActive ? "text-4" : "text-black"}`
             }
@@ -159,7 +162,7 @@ const Navbar = () => {
 
   return (
     <div className="navbar max-w-9/12 mx-auto">
-      {/* Left side: Logo & Mobile menu */}
+      {/* Left: Logo & Mobile menu */}
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -182,30 +185,16 @@ const Navbar = () => {
             tabIndex={0}
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
-            {navItems}
-
-            {/* SignIn / SignUp inside dropdown on mobile */}
+            {user ? privateNavItems : publicNavItems}
             {!user && (
               <>
                 <li>
-                  <Link
-                    onClick={() =>
-                      window.scrollTo({ top: 0, behavior: "smooth" })
-                    }
-                    to="/auth/login"
-                    className="flex items-center gap-2"
-                  >
+                  <Link to="/auth/login" className="flex items-center gap-2">
                     <FaSignInAlt /> SignIn
                   </Link>
                 </li>
                 <li>
-                  <Link
-                    onClick={() =>
-                      window.scrollTo({ top: 0, behavior: "smooth" })
-                    }
-                    to="/auth/register"
-                    className="flex items-center gap-2"
-                  >
+                  <Link to="/auth/register" className="flex items-center gap-2">
                     <FaUserPlus /> SignUp
                   </Link>
                 </li>
@@ -216,39 +205,37 @@ const Navbar = () => {
 
         {/* Logo */}
         <Link
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           to="/"
+          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           className="flex items-center gap-3"
         >
-          <img className="w-12 h-12 md:w-12 md:h-12" src={Logo} alt="Logo" />
+          <img className="w-12 h-12" src={Logo} alt="Logo" />
           <h1 className="md:text-2xl">
             Prime<span className="text-3 font-black">News</span>
           </h1>
         </Link>
       </div>
 
-      {/* Center nav for desktop */}
+      {/* Center nav (desktop) */}
       <div className="navbar-center hidden lg:flex">
         <ul className="flex gap-8 items-center justify-center text-lg font-medium">
-          {navItems}
+          {user ? privateNavItems : publicNavItems}
         </ul>
       </div>
 
-      {/* Right side: SignIn/SignUp (desktop) OR Avatar (all devices) */}
+      {/* Right: Auth buttons / Avatar */}
       <div className="navbar-end">
         {!user ? (
           <div className="hidden lg:flex gap-3">
             <Link
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               to="/auth/login"
-              className="bg-[#004c4c] hover:bg-[#006666] transition duration-300 text-white px-5 py-1 rounded-md"
+              className="bg-[#004c4c] hover:bg-[#006666] text-white px-5 py-1 rounded-md transition duration-300"
             >
               SignIn
             </Link>
             <Link
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               to="/auth/register"
-              className="bg-[#004c4c] hover:bg-[#006666] transition duration-300 text-white px-5 py-1 rounded-md"
+              className="bg-[#004c4c] hover:bg-[#006666] text-white px-5 py-1 rounded-md transition duration-300"
             >
               SignUp
             </Link>
@@ -271,14 +258,7 @@ const Navbar = () => {
                 </span>
               </li>
               <li>
-                <Link
-                  onClick={() =>
-                    window.scrollTo({ top: 0, behavior: "smooth" })
-                  }
-                  to="/profile"
-                >
-                  Profile
-                </Link>
+                <Link to="/profile">Profile</Link>
               </li>
               <li>
                 <button onClick={handleLogout}>Logout</button>
