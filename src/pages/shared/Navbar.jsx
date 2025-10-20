@@ -62,6 +62,7 @@ const Navbar = () => {
       toast.success("Logout successful!", { autoClose: 1500 });
     });
   };
+  // testing
 
   const navItems = (
     <>
