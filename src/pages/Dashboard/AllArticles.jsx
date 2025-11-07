@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import {
+  AiOutlineCheck,
+  AiOutlineClose,
+  AiOutlineDelete,
+} from "react-icons/ai";
+import { MdStars } from "react-icons/md";
 import Loading from "../shared/Loading";
 
 const AllArticles = () => {
@@ -39,7 +45,6 @@ const AllArticles = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [currentPage]);
 
-  // Pagination slice
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedArticles = articles.slice(
     startIndex,
@@ -61,7 +66,9 @@ const AllArticles = () => {
     if (!declineReason.trim()) return toast.error("Reason required");
     await axios.patch(
       `${import.meta.env.VITE_API_URL}/articles/${selectedId}/decline`,
-      { reason: declineReason }
+      {
+        reason: declineReason,
+      }
     );
     toast.info("Article declined");
     setOpenModal(false);
@@ -151,36 +158,40 @@ const AllArticles = () => {
                         <span className="text-gray-400">—</span>
                       )}
                     </td>
-                    <td className="space-x-2">
+                    <td className="flex gap-1">
                       {a.status === "pending" && (
                         <>
                           <button
                             className="btn btn-xs btn-success"
+                            title="Approve"
                             onClick={() => approveArticle(a._id)}
                           >
-                            Approve
+                            <AiOutlineCheck />
                           </button>
                           <button
                             className="btn btn-xs btn-error"
+                            title="Decline"
                             onClick={() => openDecline(a._id)}
                           >
-                            Decline
+                            <AiOutlineClose />
                           </button>
                         </>
                       )}
                       {a.status === "approved" && !a.isPremium && (
                         <button
                           className="btn btn-xs btn-warning"
+                          title="Make Premium"
                           onClick={() => makePremium(a._id)}
                         >
-                          Make Premium
+                          <MdStars />
                         </button>
                       )}
                       <button
                         className="btn btn-xs btn-outline btn-error"
+                        title="Delete"
                         onClick={() => deleteArticle(a._id)}
                       >
-                        Delete
+                        <AiOutlineDelete />
                       </button>
                     </td>
                   </tr>
@@ -191,7 +202,7 @@ const AllArticles = () => {
 
           {/* Mobile Cards */}
           <div className="grid gap-4 md:hidden pt-5">
-            {paginatedArticles.map((a, idx) => (
+            {paginatedArticles.map((a) => (
               <div
                 key={a._id}
                 className="bg-white shadow rounded-lg p-4 space-y-2 border border-green-100"
@@ -245,36 +256,40 @@ const AllArticles = () => {
                 )}
 
                 {/* Actions */}
-                <div className="flex flex-wrap gap-2 pt-2">
+                <div className="flex flex-col md:flex-row gap-2 pt-2">
                   {a.status === "pending" && (
                     <>
                       <button
-                        className="btn btn-xs btn-success"
+                        className="btn btn-xs btn-success w-full md:w-auto"
+                        title="Approve"
                         onClick={() => approveArticle(a._id)}
                       >
-                        Approve
+                        <AiOutlineCheck />
                       </button>
                       <button
-                        className="btn btn-xs btn-error"
+                        className="btn btn-xs btn-error w-full md:w-auto"
+                        title="Decline"
                         onClick={() => openDecline(a._id)}
                       >
-                        Decline
+                        <AiOutlineClose />
                       </button>
                     </>
                   )}
                   {a.status === "approved" && !a.isPremium && (
                     <button
-                      className="btn btn-xs btn-warning"
+                      className="btn btn-xs btn-warning w-full md:w-auto"
+                      title="Make Premium"
                       onClick={() => makePremium(a._id)}
                     >
-                      Make Premium
+                      <MdStars />
                     </button>
                   )}
                   <button
-                    className="btn btn-xs btn-outline btn-error"
+                    className="btn btn-xs btn-outline btn-error w-full md:w-auto"
+                    title="Delete"
                     onClick={() => deleteArticle(a._id)}
                   >
-                    Delete
+                    <AiOutlineDelete />
                   </button>
                 </div>
               </div>
@@ -291,7 +306,6 @@ const AllArticles = () => {
               >
                 Prev
               </button>
-
               {[...Array(totalPages)].map((_, idx) => (
                 <button
                   key={idx}
@@ -303,12 +317,11 @@ const AllArticles = () => {
                   {idx + 1}
                 </button>
               ))}
-
               <button
                 className="btn btn-sm"
-                onClick={() => {
-                  setCurrentPage((p) => Math.min(p + 1, totalPages));
-                }}
+                onClick={() =>
+                  setCurrentPage((p) => Math.min(p + 1, totalPages))
+                }
                 disabled={currentPage === totalPages}
               >
                 Next

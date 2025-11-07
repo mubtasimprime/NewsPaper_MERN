@@ -6,7 +6,7 @@
 
 ## 🌐 Live Site
 
-[PrimeNews Live](https://prime-newspaper.netlify.app/)
+[PrimeNews Live](https://newspaper-c828c.web.app/)
 
 ---
 
@@ -82,12 +82,14 @@
 Follow these steps to set up and run the project on your local machine:
 
 ### 1️⃣ Clone the Repository
+
 ```bash
 git clone https://github.com/<your-username>/PrimeNews.git
 cd PrimeNews
 ```
 
 ### 2️⃣ Install Dependencies
+
 ```bash
 npm install
 # or
@@ -95,6 +97,7 @@ yarn install
 ```
 
 ### 3️⃣ Set Up Environment Variables
+
 Create a `.env` file in the root directory and add your Firebase or API keys:
 
 ```env
@@ -108,14 +111,18 @@ VITE_API_BASE_URL=http://localhost:5000
 ```
 
 ### 4️⃣ Start the Development Server
+
 ```bash
 npm run dev
 ```
+
 Then open the app in your browser at:
 👉 `http://localhost:5173`
 
 ### 5️⃣ Run the Backend (if applicable)
+
 If you have a backend folder for Express/MongoDB:
+
 ```bash
 cd server
 npm install
@@ -125,10 +132,13 @@ npm run dev
 Make sure your `.env` backend variables (MongoDB URI, JWT secret, etc.) are configured properly.
 
 ### 6️⃣ Build for Production
+
 ```bash
 npm run build
 ```
+
 You can preview the build locally using:
+
 ```bash
 npm run preview
 ```
@@ -152,12 +162,13 @@ npm run preview
 ## 🧩 Deployment
 
 ### Frontend
+
 - Deploy on **Netlify** or **Vercel**.
 - Set environment variables in your hosting platform dashboard.
 
 ### Backend
+
 - Deploy on **Render**, **Railway**, or **Vercel Serverless Functions**.
 - Add environment variables and connect MongoDB.
 
 ---
-

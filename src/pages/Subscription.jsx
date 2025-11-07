@@ -24,7 +24,7 @@ export default function Subscription() {
     <div className="min-h-screen flex flex-col md:flex-row items-center justify-center px-4 py-12 gap-12 bg-gray-100">
       {/* Left Image */}
       <div
-        className="w-full md:w-1/2 rounded-3xl overflow-hidden shadow-2xl"
+        className="w-full md:w-1/2 rounded-3xl overflow-hidden shadow-2xl bg-no-repeat md:bg-repeat"
         style={{
           height: "600px",
           backgroundImage: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(https://i.ibb.co/RkRgyKBY/subcribes.jpg)`,
